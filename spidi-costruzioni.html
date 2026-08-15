@@ -1,0 +1,2873 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spidi Costruzioni Srl</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <!-- Importazione font Bebas Neue e Inter per il logo e menu -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://cdn.jsdelivr.net/npm/@fontsource/google-sans-flex/index.css');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: #121210;
+      position: relative;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+    }
+    
+    /* Header Sticky (Trasparente in alto, nero allo scroll) */
+    header {
+      position: fixed; /* Cambiato da absolute a fixed per rimanere in alto durante lo scroll */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10002; /* Sopra l'overlay del menu mobile */
+      background-color: rgba(18, 18, 16, 0); /* Trasparente all'inizio */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Riga iniziale molto sottile e discreta */
+      transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    /* Classe aggiunta tramite JS al superamento di 50px di scroll */
+    header.scrolled {
+      background-color: #121210; /* Sfondo solido nero del brand */
+      border-bottom-color: rgba(255, 255, 255, 0.08); /* Bordo ancora piÃ¹ sottile */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15); /* Ombra premium per staccarsi dallo sfondo */
+    }
+
+    /* Configurazione per prevenire conflitti quando il menu mobile Ã¨ aperto */
+    header.menu-open {
+      background-color: transparent !important;
+      border-bottom-color: rgba(255, 255, 255, 0) !important;
+      box-shadow: none !important;
+    }
+    
+    /* Contenitore con margini laterali per PC (max-width grid) */
+    .nav-container {
+      max-width: 1220px; /* Ridotta per aumentare lo spazio vuoto ai lati */
+      margin: 0 auto;
+      padding: 18px 35px; /* Aumentato il margine interno laterale */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      transition: padding 0.35s ease, max-width 0.35s ease; /* Transizione fluida per altezza e larghezza dello scroll */
+    }
+
+    /* Allarga il contenitore dell'header e riduce il padding verticale quando si scorre la pagina */
+    header.scrolled .nav-container {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      max-width: 1400px; /* Allarga la barra a scorrimento su PC per dare respiro */
+    }
+
+    /* Logo Affiancato: Icona originale a sinistra (senza ritagli), Testo in HTML a destra */
+    .logo-container {
+      display: flex;
+      align-items: flex-end; /* Allinea il testo con l'icona dal basso */
+      gap: 15px;
+      text-decoration: none; /* Reset stile link */
+    }
+    
+    .logo-icon {
+      height: 36px; /* Logo ingrandito su desktop per maggior importanza visiva */
+      width: auto;
+      display: block;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; /* Testo del logo proporzionato all'icona piÃ¹ grande */
+      color: #FFFFFF;
+      letter-spacing: 0.02em;
+      line-height: 0.85;
+      display: flex;
+      align-items: baseline;
+      margin: 0;
+      padding: 0;
+      transform: translateY(3.5px); /* Offset ricalibrato per allineamento perfetto */
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      cursor: pointer;
+    }
+
+    .logo-text .srl {
+      font-size: 13px; /* SRL proporzionata */
+      color: #FFFFFF;
+      font-family: 'Bebas Neue', sans-serif;
+      margin-left: 4px;
+    }
+
+    /* Gruppo di destra: Menu + CTA */
+    .nav-right-group {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    /* Menu di Navigazione */
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 36px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 15px; /* Aumentato leggermente da 14px a 15px */
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      opacity: 0.8;
+      position: relative;
+      padding-bottom: 6px; /* Spazio per la linea sottostante */
+      transition: opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav-menu a:hover, .nav-menu a.active {
+      opacity: 1;
+    }
+
+    /* Linea di hover che si apre dal centro */
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1.5px;
+      background-color: #FFFFFF;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .nav-menu a:hover::after, .nav-menu a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* Dropdown navigazione (solo desktop) */
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu .dropdown-menu {
+      list-style: none;
+      margin: 0;
+      padding: 6px 0;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 230px;
+      background: #FFFFFF;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 300;
+    }
+
+    /* Ponte invisibile per non perdere l'hover durante il passaggio del mouse sul gap di 14px */
+    .nav-menu .dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: transparent;
+    }
+
+    .nav-menu li.has-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .nav-menu .dropdown-menu li {
+      position: static;
+    }
+
+    .nav-menu .dropdown-menu a {
+      display: block;
+      padding: 12px 22px;
+      color: #121210;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      opacity: 1;
+      white-space: nowrap;
+      transition: background-color 0.18s ease, padding-left 0.18s ease;
+    }
+
+    .nav-menu .dropdown-menu a:hover {
+      background-color: #f5f5f3;
+      padding-left: 28px;
+    }
+
+    .nav-menu .dropdown-menu a::after {
+      display: none !important;
+    }
+
+    .nav-menu .chevron-icon {
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .nav-menu li.has-dropdown:hover .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Bottone CTA a destra (Contatti) */
+    .cta-button {
+      background-color: #FFFFFF;
+      color: #000000;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px; /* Testo del bottone leggermente piÃ¹ grande */
+      font-weight: 600;
+      padding: 9px 28px; /* Meno alto e leggermente piÃ¹ largo */
+      border: none;
+      border-radius: 0px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-block;
+      transition: background-color 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    /* Slider Sfondi (Dissolvenza Incrociata Premium) */
+    .background-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .slider-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      opacity: 0; /* Nasconde per default */
+      z-index: 1;
+      transition: opacity 1.3s cubic-bezier(0.25, 1, 0.5, 1); /* Transizione di dissolvenza morbida ed elegante */
+    }
+
+    .slide.active {
+      opacity: 1; /* Mostra lo slide attivo */
+      z-index: 2; /* Lo porta in primo piano rispetto a quello uscente */
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform-origin: center center;
+      transform: scale(1);
+    }
+
+    /* Animazione dello zoom lento triggerata quando lo slide diventa attivo */
+    .slide.active.initial-load img {
+      animation: slowZoom 10s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards; /* Delay all'avvio */
+    }
+
+    .slide.active:not(.initial-load) img {
+      animation: slowZoom 10s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* Avvio immediato al click */
+    }
+
+    @keyframes slowZoom {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.07); /* Zoom leggero del 7% */
+      }
+    }
+
+    /* Animazione di apparizione premium per i testi centrali */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Animazione di apparizione e discesa fluttuante per l'header */
+    @keyframes fadeInHeader {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Gradiente scuro sfumato dall'alto verso il basso (top gradient) per far risaltare l'header */
+    .top-gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 160px; /* Poca dissolvenza dal sopra al basso */
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%);
+      pointer-events: none;
+      z-index: 2; /* Sopra l'overlay dello sfondo (z-index 1) e sotto l'header (z-index 10) */
+    }
+    
+    /* 40% black tint over the entire image (ridotto di altri 10) */
+    .tint-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Contenuto Hero Principale allineato con la griglia */
+    .hero-main {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      z-index: 5;
+      pointer-events: none;
+      box-sizing: border-box;
+    }
+
+    .hero-content-container {
+      width: 100%;
+      max-width: 1220px; /* Allineato perfettamente con la nav */
+      height: 100%;
+      height: 100dvh;
+      margin: 0 auto;
+      padding: 0 35px; /* Rimosso padding verticale per centrare a mezzo altezza */
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Centrato nel mezzo verticale su PC */
+      box-sizing: border-box;
+      pointer-events: auto; /* Riattiva i click per gli elementi interni */
+      position: relative; /* Consente il posizionamento assoluto in basso delle frecce */
+    }
+
+    .hero-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(40px, 5.8vw, 72px); /* Dimensione ingrandita */
+      font-weight: 500; /* Spessore impostato a 500 (Medio) */
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.1; /* Interlinea adatta */
+      letter-spacing: -0.01em;
+      margin: 0;
+      max-width: none; /* Rimosso il limite per evitare che vada a capo automaticamente */
+      opacity: 0; /* Inizialmente trasparente per l'animazione */
+      transform: translateY(25px); /* Posizione di partenza sfasata verso il basso */
+      animation: fadeInUp 0.85s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards; /* Animazione fluida d'ingresso */
+    }
+
+    .hero-subtitle {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(15px, 1.4vw, 17px); /* Sottotitolo pulito */
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.5;
+      margin: 16px 0 24px 0; /* Margini ridotti per avvicinare gli elementi */
+      max-width: 460px; /* Restretto per raggruppare meglio il blocco di testo */
+      opacity: 0;
+      transform: translateY(25px);
+      animation: fadeInUp 0.85s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; /* Animazione d'ingresso con leggero ritardo (staggered) */
+    }
+
+    .hero-btn {
+      background-color: #FFFFFF;
+      color: #000000;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 36px; /* Meno alto e leggermente piÃ¹ largo */
+      border: none;
+      border-radius: 0px; /* Rettangolo senza smussature */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      transition: background-color 0.2s ease;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: fadeInUp 0.85s cubic-bezier(0.25, 1, 0.5, 1) 0.6s forwards; /* Animazione d'ingresso con ritardo maggiore */
+    }
+
+    .hero-btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Wrapper per la freccia per consentire il clipping (overflow: hidden) */
+    .btn-arrow-wrapper {
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      margin-left: 10px;
+    }
+
+    .hero-btn .btn-arrow {
+      display: block;
+    }
+
+    .hero-btn:hover .btn-arrow {
+      animation: arrowSlide 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes arrowSlide {
+      0% {
+        transform: translateX(0);
+      }
+      49% {
+        transform: translateX(110%);
+      }
+      50% {
+        transform: translateX(-110%);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    /* Effetto scorrimento testo premium (roll-text) */
+    .roll-text {
+      display: inline-flex;
+      overflow: hidden;
+      vertical-align: middle;
+      height: 1.2em; /* Altezza di sicurezza per i caratteri speciali */
+      line-height: 1.2;
+    }
+
+    .roll-text-inner {
+      display: block;
+      position: relative;
+      height: 100%;
+      transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .roll-text-inner::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      display: block;
+      white-space: nowrap;
+    }
+
+    /* Hover triggerato quando il mouse passa sul pulsante/link genitore */
+    a:hover .roll-text-inner {
+      transform: translateY(-100%);
+    }
+
+    /* Controlli slider (frecce destra e sinistra in basso) */
+    .hero-slider-controls {
+      display: flex;
+      gap: 12px;
+      position: absolute;
+      bottom: 50px; /* Ancorato fisso in basso su PC */
+      left: 35px; /* Allineato al padding della griglia */
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.85s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards; /* Appare dopo il pulsante di preventivo */
+    }
+
+    .slider-btn {
+      width: 46px;
+      height: 46px;
+      background-color: #FFFFFF;
+      color: #000000;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .slider-btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .slider-btn svg {
+      transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .prev-btn:hover svg {
+      transform: translateX(-3px); /* Micro-animazione freccia sinistra */
+    }
+
+    .next-btn:hover svg {
+      transform: translateX(3px); /* Micro-animazione freccia destra */
+    }
+
+    /* === HAMBURGER BUTTON === */
+    .hamburger-menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 26px;
+      height: 17px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 10001;
+    }
+
+    .hamburger-menu-btn .line {
+      width: 100%;
+      height: 2px;
+      background-color: #FFFFFF;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger-menu-btn.open .line-1 {
+      transform: translateY(7.5px) rotate(45deg);
+      transform-origin: center;
+    }
+
+    .hamburger-menu-btn.open .line-2 {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu-btn.open .line-3 {
+      transform: translateY(-7.5px) rotate(-45deg);
+      transform-origin: center;
+    }
+
+    /* === MOBILE MENU OVERLAY === */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background-color: #0c0c0a;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      box-sizing: border-box;
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* === MOBILE MENU NAV === */
+    .mobile-menu-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding-top: 0;
+    }
+
+    /* === MOBILE NAV LINKS === */
+    .mobile-nav-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      opacity: 0.7;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .mobile-nav-link.active {
+      font-weight: 700;
+      opacity: 1;
+      border-bottom: 2px solid #FFFFFF;
+      padding-bottom: 4px;
+    }
+
+    /* Interruzione riga forzata desktop */
+    .desktop-only-br {
+      display: inline;
+    }
+
+    /* MEDIA QUERIES RESPONSIVE (MOBILE) */
+    @media (max-width: 992px) {
+      .nav-right-group {
+        display: none;
+      }
+      .hamburger-menu-btn {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Riduce padding e ottimizza griglia */
+      .nav-container {
+        padding: 18px 24px; /* Riallineato verticalmente a 18px per posizionare il logo bene */
+      }
+
+      .logo-icon {
+        height: 24px; /* Dimensione ridotta a 24px per evitare sovrapposizioni su schermi piccoli */
+      }
+
+      .logo-text {
+        font-size: 20px; /* Testo ridotto a 20px per una perfetta leggibilitÃ  su mobile */
+        transform: translateY(1.5px);
+      }
+
+      .logo-text .srl {
+        font-size: 9px;
+        margin-left: 2px;
+      }
+
+      /* Layout Hero su Mobile */
+      .hero-content-container {
+        padding: 110px 24px 0 24px; /* Padding superiore per spingere i testi verso l'alto su mobile */
+        justify-content: flex-start; /* Testi verso l'alto della hero */
+      }
+
+      /* Disattiva l'interruzione di riga forzata su mobile per far scorrere il testo */
+      .desktop-only-br {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: clamp(32px, 8.5vw, 48px); /* Titolo reso piÃ¹ grande e maestoso su mobile */
+        line-height: 1.15;
+      }
+
+      .hero-subtitle {
+        font-size: 14px;
+        margin: 20px 0 32px 0; /* Aumentato lo spazio tra titolo, descrizione e pulsante SOLO su mobile */
+        max-width: 100%; /* Occupa l'intera larghezza */
+      }
+
+      .hero-btn {
+        width: 100%; /* Pulsante a larghezza intera su mobile */
+        box-sizing: border-box;
+        justify-content: center; /* Centra testo e freccia internamente */
+        padding: 14px 28px; /* Leggermente piÃ¹ alto per un feedback touch migliore */
+        font-size: 13px;
+      }
+
+      .hero-slider-controls {
+        position: absolute;
+        bottom: 45px; /* Frecce posizionate in modo assoluto in basso anche su mobile */
+        left: 24px; /* Allineate al padding mobile */
+        margin-top: 0;
+      }
+
+      .slider-btn {
+        width: 42px; /* Dimensioni piÃ¹ compatte delle frecce slider */
+        height: 42px;
+      }
+    }
+
+    /* Wrapper per la sezione Hero a schermo intero */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    /* Sezione Ambiti di Intervento (Sfondo Bianco sotto Hero) */
+    .ambiti-section {
+      background-color: #FFFFFF;
+      padding: 120px 0;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 35px;
+      box-sizing: border-box;
+    }
+
+    .section-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 500;
+      color: #121210;
+      text-transform: uppercase;
+      margin: 0 0 60px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .ambiti-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px; /* Spazio proporzionato per le card */
+    }
+
+    .ambito-card {
+      background-color: #F8F8F8; /* Sfondo grigio chiarissimo come nello screenshot */
+      border: 1px solid #121210; /* Bordo nero di 1px */
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Distribuzione spaziale ottimale */
+      box-sizing: border-box;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .ambito-card:hover {
+      transform: translateY(-6px); /* Sollevamento morbido */
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05); /* Ombra premium leggerissima */
+    }
+
+    .card-header-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ambito-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      color: #121210;
+      opacity: 0.4;
+      letter-spacing: 0.05em;
+    }
+
+    .ambito-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(18px, 1.8vw, 21px);
+      font-weight: 600;
+      color: #121210;
+      text-transform: uppercase;
+      margin: 6px 0 0 0;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    /* Contenitore Immagine Card */
+    .card-image-wrapper {
+      width: 100%;
+      height: 170px;
+      overflow: hidden;
+      margin: 20px 0;
+      background-color: #FFFFFF;
+      position: relative;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .ambito-card:hover .card-image {
+      transform: scale(1.04); /* Leggero zoom dell'immagine all'hover della card */
+    }
+
+    .card-footer-group {
+      display: flex;
+      flex-direction: column;
+      margin-top: auto;
+    }
+
+    .ambito-desc {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14.5px;
+      color: #555552;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* Bottone Scopri di piÃ¹ */
+    .scopri-btn {
+      align-self: flex-start;
+      margin-top: 20px;
+      padding: 10px 24px;
+      border: 1px solid #121210;
+      background-color: transparent;
+      color: #121210;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      gap: 8px;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      cursor: pointer;
+    }
+
+    .scopri-btn:hover {
+      background-color: #121210;
+      color: #FFFFFF;
+    }
+
+    .scopri-btn .btn-arrow {
+      display: block;
+    }
+
+    .scopri-btn:hover .btn-arrow {
+      animation: arrowSlide 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    /* Media query responsiva per la sezione ambiti */
+    @media (max-width: 768px) {
+      .ambiti-section {
+        padding: 80px 0;
+      }
+      .section-title {
+        margin-bottom: 45px;
+      }
+      .ambiti-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .ambito-card {
+        padding: 24px;
+      }
+      .ambito-card:hover {
+        transform: none;
+        box-shadow: none;
+      }
+      .card-image-wrapper {
+        height: 150px;
+        margin: 15px 0;
+      }
+      .scopri-btn {
+        width: 100%; /* Pulsante a larghezza intera su mobile per facilitare il tocco */
+        box-sizing: border-box;
+      }
+    }
+    
+    /* Sezione Prima e Dopo (Sfondo Nero) */
+    .prima-dopo-section {
+      background-color: #0c0c0a;
+      padding: 120px 0;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    .prima-dopo-section .section-title {
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    .prima-dopo-subtitle {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 0 60px 0;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .prima-dopo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    .before-after-card {
+      background-color: #121210;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    .slider-container {
+      container-type: inline-size;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      cursor: ew-resize;
+      user-select: none;
+    }
+
+    .slider-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100cqw;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .before-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .after-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Maniglia dello slider */
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background-color: #FFFFFF;
+      z-index: 3;
+      transform: translateX(-50%);
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .auto-animating .before-wrapper {
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .auto-animating .slider-handle {
+      transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .slider-handle-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 44px;
+      height: 44px;
+      background-color: #FFFFFF;
+      color: #121210;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+
+    .slider-handle-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .project-info {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      margin: 0 0 8px 0;
+      letter-spacing: 0.02em;
+    }
+
+    .project-desc {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    @media (max-width: 992px) {
+      .prima-dopo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sezione Galleria */
+    .galleria-section {
+      background-color: #FFFFFF;
+      padding: 80px 0; /* Ridotto per riempire gli spazi vuoti, specialmente su mobile */
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .galleria-slider-container {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .galleria-track {
+      display: flex;
+      gap: 32px;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      width: max-content; /* Ora Ã¨ sicuro usare max-content */
+    }
+
+    .galleria-slide {
+      flex: 0 0 20vw; /* Rimpicciolite ancora di piÃ¹ su PC per mostrare piÃ¹ foto ai lati con un fantastico effetto profonditÃ  */
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      position: relative;
+      opacity: 0.4;
+      transform: scale(0.9);
+      filter: grayscale(100%); /* Le foto laterali diventano letteralmente grigie/bianco e nero */
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+    }
+
+    .galleria-slide.active {
+      opacity: 1;
+      transform: scale(1.05); /* Foto al centro ingrandita e a fuoco */
+      filter: grayscale(0%); /* Torna a colori quando attiva al centro */
+      z-index: 2;
+    }
+
+    .galleria-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .galleria-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid #121210;
+      background-color: #FFFFFF;
+      color: #121210;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 15;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .galleria-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .prev-gal {
+      left: 3%;
+    }
+
+    .next-gal {
+      right: 3%;
+    }
+
+    .galleria-btn:hover {
+      background-color: #121210;
+      color: #FFFFFF;
+    }
+
+    @media (max-width: 992px) {
+      .galleria-slide {
+        flex: 0 0 45vw; /* 45% della larghezza dello schermo su tablet */
+      }
+      .prev-gal {
+        left: 2%;
+      }
+      .next-gal {
+        right: 2%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .galleria-slide {
+        flex: 0 0 58vw; /* 58% della larghezza dello schermo su mobile */
+      }
+      .prev-gal {
+        left: 15px;
+      }
+      .next-gal {
+        right: 15px;
+      }
+      .galleria-btn {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    /* Sezione Contatti (Sfondo Bianco & Semplificata) */
+    .contatti-section {
+      background-color: #FFFFFF;
+      padding: 100px 0 140px 0; /* Regolato il padding per un distanziamento perfetto e bilanciato */
+      position: relative;
+      z-index: 10;
+    }
+
+    .contatti-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      align-items: stretch; /* Consente alla colonna destra di allungarsi quanto il form */
+    }
+
+    .contatti-header-mobile {
+      display: none;
+    }
+
+    .contatti-header-desktop {
+      display: block;
+    }
+
+    .info-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    .info-links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .info-link-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #121210;
+      text-decoration: none;
+      border: 1px solid rgba(0, 0, 0, 0.08); /* Semplificato e pulito */
+      padding: 18px 20px;
+      background-color: #F9F9F8;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .info-link-item:hover {
+      background-color: #121210;
+      color: #FFFFFF;
+      border-color: #121210;
+    }
+    
+    .pointer-none {
+      pointer-events: none;
+    }
+
+    .info-icon-wrapper {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #121210;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .info-link-item:hover .info-icon-wrapper {
+      background-color: #FFFFFF;
+      color: #121210;
+      border-color: #FFFFFF;
+    }
+
+    .info-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.4);
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+      transition: color 0.3s ease;
+    }
+
+    .info-link-item:hover .info-label {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .info-value {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #121210;
+      line-height: 1.4;
+      transition: color 0.3s ease;
+    }
+
+    .info-link-item:hover .info-value {
+      color: #FFFFFF;
+    }
+
+    /* Mappa pulita */
+    .map-wrapper {
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .map-wrapper iframe {
+      display: block;
+    }
+
+    /* Form Contatti Premium */
+    .contatti-form-wrapper {
+      background-color: #FFFFFF;
+      border: 2px solid #121210; /* Bordo scuro leggermente piÃ¹ sottile per eleganza (2px) */
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      box-sizing: border-box;
+    }
+
+    .form-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #121210;
+      margin: 0 0 24px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 18px;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: #121210;
+      background-color: #FFFFFF; /* Sfondo bianco pulito */
+      border: 1.5px solid #121210; /* Bordo nero per i campi input richiesto */
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      background-color: #FFFFFF;
+      border-color: #121210;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+
+    .form-privacy input {
+      margin-top: 3px;
+      cursor: pointer;
+    }
+
+    .form-privacy-label {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      color: #555552;
+      line-height: 1.4;
+      user-select: none;
+    }
+
+    .form-privacy-label a {
+      color: #121210;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      background-color: #121210;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .form-submit-btn:hover {
+      background-color: #333330;
+    }
+
+    .form-submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .form-response-message {
+      margin-top: 15px;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 12px;
+      display: none;
+      box-sizing: border-box;
+    }
+
+    .form-response-message.success {
+      display: block;
+      color: #2e7d32;
+      background-color: #e8f5e9;
+      border: 1px solid #c8e6c9;
+    }
+
+    .form-response-message.error {
+      display: block;
+      color: #c62828;
+      background-color: #ffebee;
+      border: 1px solid #ffcdd2;
+    }
+
+    /* Modal Privacy Policy */
+    .privacy-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .privacy-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .privacy-modal-content {
+      background-color: #FFFFFF;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 40px;
+      box-sizing: border-box;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .privacy-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #121210;
+      border: none;
+      background: none;
+      font-weight: bold;
+    }
+
+    .privacy-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #121210;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .privacy-text {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: #555552;
+      line-height: 1.6;
+    }
+
+    /* Footer Decente & Professionale (Scuro) */
+    .site-footer {
+      background-color: #0c0c0a;
+      padding: 80px 0 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 10;
+      color: #FFFFFF;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+
+    .footer-logo-icon {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-logo-text .srl {
+      font-size: 10px;
+      margin-left: 2px;
+      opacity: 0.5;
+    }
+
+    .footer-brand-desc {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 320px;
+    }
+
+    .footer-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      margin: 0 0 20px 0;
+    }
+
+    .footer-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links-list a {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-list a:hover {
+      color: #FFFFFF;
+    }
+
+    .footer-info-details {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.5;
+    }
+
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copyright {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+    }
+
+    @media (max-width: 992px) {
+      .contatti-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .galleria-section {
+        padding: 80px 0;
+      }
+      .contatti-header-mobile {
+        display: block;
+      }
+      .contatti-header-desktop {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .contatti-section .section-container {
+        padding: 0 10px; /* Ridotto al minimo solo per i contatti, allargando al massimo gli elementi su iPhone SE */
+      }
+      .contatti-form-wrapper {
+        padding: 20px 12px; /* Margine interno sottile per allargare al massimo i campi di testo */
+      }
+      .contatti-section {
+        padding: 40px 0; /* Ridotto il vuoto sopra e sotto per evitare scorrimento */
+      }
+      .form-group {
+        margin-bottom: 12px; /* Avvicina i campi verticalmente */
+      }
+      .form-control {
+        padding: 10px 12px; /* Rende i campi input meno alti */
+        font-size: 13px;
+      }
+      textarea.form-control {
+        min-height: 80px; /* Riduce l'altezza del campo messaggio */
+      }
+      .form-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      .form-privacy {
+        margin-bottom: 16px;
+        gap: 8px;
+      }
+      .form-privacy-label {
+        font-size: 12px;
+      }
+      .form-submit-btn {
+        padding: 12px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .site-footer {
+        padding: 60px 0 30px 0;
+      }
+    }
+
+
+    .preloader-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.04em;
+      margin: 0 0 30px 0;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .preloader-title .srl {
+      font-size: 14px;
+      margin-left: 4px;
+    }
+
+    .preloader-bar-container {
+      width: 180px;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .preloader-bar {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      width: 0%;
+      background-color: #FFFFFF;
+      transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader Premium -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <img src="LOGO.png" alt="Spidi Costruzioni" class="preloader-logo">
+      <h2 class="preloader-title">SPIDI COSTRUZIONI<span class="srl">SRL</span></h2>
+      <div class="preloader-bar-container">
+        <div class="preloader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Trasparente con Logo e Testo -->
+  <header>
+    <div class="nav-container">
+      <!-- Logo a sinistra (Icona originale non ritagliata + Testo HTML affiancato) -->
+      <a href="#" class="logo-container" id="logoLink">
+        <img src="LOGO.png" alt="Icona Spidi Costruzioni" class="logo-icon">
+        <h1 class="logo-text">
+          SPIDI COSTRUZIONI<span class="srl">SRL</span>
+        </h1>
+      </a>
+
+      <!-- Gruppo di destra: Menu + Bottone CTA -->
+      <div class="nav-right-group">
+        <ul class="nav-menu">
+          <li class="has-dropdown">
+            <a href="servizi.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Servizi">Servizi</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="servizi.html">Tutti i Servizi</a></li>
+              <li><a href="residenziale.html">Edilizia Residenziale</a></li>
+              <li><a href="commerciale.html">Spazi Commerciali</a></li>
+              <li><a href="gdo.html">Grande Distribuzione</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="galleria.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Galleria">Galleria</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="galleria.html">Galleria</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="chi-siamo.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Chi siamo">Chi siamo</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="chi-siamo.html">Chi siamo</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="nav-cta">
+          <a href="contatti.html" class="cta-button">
+            <span class="roll-text"><span class="roll-text-inner" data-text="Contatti">Contatti</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottone Hamburger per Mobile (nascosto su PC) -->
+      <button class="hamburger-menu-btn" id="hamburgerBtn" aria-label="Menu">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menu Mobile Overlay (Nascosto per impostazione predefinita, sfrutta l'header in primo piano) -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <nav class="mobile-menu-nav">
+      <a href="spidi-costruzioni.html" class="mobile-nav-link active">Home</a>
+      <a href="servizi.html" class="mobile-nav-link">Servizi</a>
+      <a href="galleria.html" class="mobile-nav-link">Galleria</a>
+      <a href="contatti.html" class="mobile-nav-link">Contatti</a>
+      <a href="chi-siamo.html" class="mobile-nav-link">Chi siamo</a>
+    </nav>
+  </div>
+
+  <!-- Wrapper Sezione Hero a schermo intero -->
+  <div class="hero-section">
+    <!-- Slider Sfondi a schermo intero -->
+    <div class="background-slider">
+      <div class="slider-track">
+        <div class="slide active initial-load">
+          <img src="1.png" alt="Sfondo 1">
+        </div>
+        <div class="slide">
+          <img src="2.png" alt="Sfondo 2">
+        </div>
+        <div class="slide">
+          <img src="3.png" alt="Sfondo 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Coperture scure -->
+    <div class="tint-overlay"></div>
+    <div class="top-gradient-overlay"></div>
+
+    <!-- Sezione Centrale con Titolo, Sottotitolo e Bottone con freccia -->
+    <main class="hero-main">
+      <div class="hero-content-container">
+        <!-- Gruppo di testi e CTA in alto -->
+        <div class="hero-text-block">
+          <h2 class="hero-title">Ristrutturazione e<br class="desktop-only-br">riqualificazione di immobili</h2>
+          <p class="hero-subtitle">Edilizia residenziale e spazi commerciali, inclusa la Grande Distribuzione Organizzata (GDO)</p>
+          <a href="#preventivo" class="hero-btn">
+            <span class="roll-text"><span class="roll-text-inner" data-text="Richiedi preventivo">Richiedi preventivo</span></span>
+            <span class="btn-arrow-wrapper">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
+                <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.5 3.5L13 8L8.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <!-- Pulsanti slider freccia in basso (allineati a sinistra) -->
+        <div class="hero-slider-controls">
+          <button class="slider-btn prev-btn" aria-label="Precedente">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="slider-btn next-btn" aria-label="Successivo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Nuova Sezione: Ambiti di Intervento (Sfondo Bianco) -->
+  <section class="ambiti-section" id="servizi">
+    <div class="section-container">
+      <h2 class="section-title">I nostri ambiti di intervento</h2>
+      <div class="ambiti-grid">
+        <!-- Ambito 1 -->
+        <div class="ambito-card">
+          <div class="card-header-group">
+            <span class="ambito-number">01</span>
+            <h3 class="ambito-title">Edilizia Residenziale</h3>
+          </div>
+          <div class="card-image-wrapper">
+            <img src="1!.webp" alt="Edilizia Residenziale" class="card-image">
+          </div>
+          <div class="card-footer-group">
+            <p class="ambito-desc">Ristrutturazione, restauro e riqualificazione energetica di appartamenti, villa e complessi abitativi, con finiture di alto livello.</p>
+            <a href="residenziale.html" class="scopri-btn">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di piÃ¹">Scopri di piÃ¹</span></span>
+              <span class="btn-arrow-wrapper">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
+                  <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.5 3.5L13 8L8.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Ambito 2 -->
+        <div class="ambito-card">
+          <div class="card-header-group">
+            <span class="ambito-number">02</span>
+            <h3 class="ambito-title">Spazi Commerciali</h3>
+          </div>
+          <div class="card-image-wrapper">
+            <img src="2!.webp" alt="Spazi Commerciali" class="card-image">
+          </div>
+          <div class="card-footer-group">
+            <p class="ambito-desc">Realizzazione, progettazione e allestimento su misura di uffici, showroom, negozi, curando l'estetica e la funzionalitÃ  spaziale.</p>
+            <a href="commerciale.html" class="scopri-btn">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di piÃ¹">Scopri di piÃ¹</span></span>
+              <span class="btn-arrow-wrapper">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
+                  <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.5 3.5L13 8L8.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Ambito 3 -->
+        <div class="ambito-card">
+          <div class="card-header-group">
+            <span class="ambito-number">03</span>
+            <h3 class="ambito-title">Grande Distribuzione</h3>
+          </div>
+          <div class="card-image-wrapper">
+            <img src="3!.webp" alt="Grande Distribuzione Organizzata (GDO)" class="card-image" style="object-position: top;">
+          </div>
+          <div class="card-footer-group">
+            <p class="ambito-desc">Costruzione, ristrutturazione e manutenzione specialistica di supermercati e centri commerciali, garantendo velocitÃ  e continuitÃ .</p>
+            <a href="gdo.html" class="scopri-btn">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di piÃ¹">Scopri di piÃ¹</span></span>
+              <span class="btn-arrow-wrapper">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
+                  <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.5 3.5L13 8L8.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Nuova Sezione: Prima e Dopo (Sfondo Nero) -->
+  <section class="prima-dopo-section" id="progetti">
+    <div class="section-container">
+      <h2 class="section-title">I nostri interventi</h2>
+      <p class="prima-dopo-subtitle">Trascina il cursore al centro delle immagini per confrontare il prima e il dopo dei nostri cantieri.</p>
+      
+      <div class="prima-dopo-grid">
+        <!-- Card 1: Ristrutturazione Facciate Condominio -->
+        <div class="before-after-card">
+          <div class="slider-container">
+            <div class="before-wrapper">
+              <img src="Prima 1.jpeg" alt="Stato precedente - Facciate Condominio" class="slider-image">
+            </div>
+            <div class="after-wrapper">
+              <img src="Dopo 2.png" alt="Stato finale - Facciate Condominio" class="slider-image">
+            </div>
+            <span class="slider-label label-before">Prima</span>
+            <span class="slider-label label-after">Dopo</span>
+            <div class="slider-handle">
+              <div class="slider-handle-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 7l-5 5 5 5M16 17l5-5-5-5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Riqualificazione Facciate</h3>
+            <p class="project-desc">Restyling completo di un condominio plurifamiliare: rifacimento dei cornicioni superiori, installazione di ringhiere moderne in acciaio e nuova tinteggiatura a fasce beige e marrone chiaro.</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Restauro Corte Interna -->
+        <div class="before-after-card">
+          <div class="slider-container">
+            <div class="before-wrapper">
+              <img src="Prima 3.png" alt="Stato precedente - Corte Interna" class="slider-image">
+            </div>
+            <div class="after-wrapper">
+              <img src="Dopo 4.png" alt="Stato finale - Corte Interna" class="slider-image">
+            </div>
+            <span class="slider-label label-before">Prima</span>
+            <span class="slider-label label-after">Dopo</span>
+            <div class="slider-handle">
+              <div class="slider-handle-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 7l-5 5 5 5M16 17l5-5-5-5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Restauro Corte Interna</h3>
+            <p class="project-desc">Ripristino dell'intonaco ammalorato e tinteggiatura della facciata interna di una corte storica, risanando i dettagli architettonici e valorizzando la calda tonalitÃ  originaria.</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Ristrutturazione Villa Unifamiliare -->
+        <div class="before-after-card">
+          <div class="slider-container">
+            <div class="before-wrapper">
+              <img src="Prima 4.png" alt="Stato precedente - Villa" class="slider-image">
+            </div>
+            <div class="after-wrapper">
+              <img src="Dopo 6.png" alt="Stato finale - Villa" class="slider-image">
+            </div>
+            <span class="slider-label label-before">Prima</span>
+            <span class="slider-label label-after">Dopo</span>
+            <div class="slider-handle">
+              <div class="slider-handle-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 7l-5 5 5 5M16 17l5-5-5-5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Ristrutturazione Villa</h3>
+            <p class="project-desc">Riqualificazione estetica ed energetica di una villa indipendente: tinteggiatura bicolore in tonalitÃ  sabbia e grigio-marrone, con rifacimento dei balconi e dei serramenti.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Nuova Sezione: Galleria Fotografica dei Cantieri -->
+  <section class="galleria-section" id="progetti-galleria">
+    <div class="section-container" style="max-width: 100%; padding: 0;">
+      <div class="galleria-header" style="max-width: 1200px; margin: 0 auto 35px auto; padding: 0 40px; box-sizing: border-box;">
+        <h2 class="section-title" style="margin-bottom: 12px;">Foto Cantieri</h2>
+        <p class="galleria-subtitle" style="font-family: 'Google Sans Flex', 'Inter', sans-serif; font-size: 15px; color: #555552; max-width: 750px; line-height: 1.5; margin: 0;">
+          Esplora le immagini reali dei nostri cantieri completati e in corso d'opera. Clicca sulle frecce ai lati, trascina le immagini o fai click direttamente su una foto laterale per metterla a fuoco al centro.
+        </p>
+      </div>
+      
+      <div class="galleria-slider-container">
+        <!-- Freccia Sinistra ai Lati -->
+        <button class="galleria-btn prev-gal" aria-label="Precedente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <!-- Freccia Destra ai Lati -->
+        <button class="galleria-btn next-gal" aria-label="Successivo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div class="galleria-track">
+          <!-- Slide 1 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472753992_632760565983536_3590188713275451739_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=XMI46jYMGqAQ7kNvwGL1riA&_nc_oc=Adp3nkOxrEkWBUKF0fEd9dFcNrV-hK6q-9vyp8ZqI3iLMorJR_7BqhlFX9I8hLy2dZE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=i7sRp-IDZr8f5fKqD1R81A&_nc_ss=7b2a8&oh=00_AQG9-YuTrlH6qVyG9qW-nd4KExePejKvdap6bUi3BstsJg&oe=6A7F9A40" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 3 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472925731_632760539316872_2219788765293888447_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=VeFmc27NrHkQ7kNvwGbDoni&_nc_oc=Adrr4K4hjHq-1Wh_lexYh5FYtxkIAmxbyCNXkyYEMr15bm7GXgb1Dur0Owy_88OFcfc&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=uFjq6RVk36h7VWGiPf4Z3w&_nc_ss=7b2a8&oh=00_AQG1sme5nzxNFM24jR1xezkNVyj8g4u4kuOg-EstU_3zXQ&oe=6A7FBE5A" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 4 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472760250_632760939316832_6298617543829281260_n.jpg?stp=dst-jpg_tt6&cstp=mx1152x2048&ctp=s1152x2048&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=t1kHd9nSyp8Q7kNvwHA8TK6&_nc_oc=Adq-jVUaPjLMwCvLqV57XZ80aqw6v5UULnTEL7Ucy1lXEB3t9eicpe0r_NJHk-5qv7s&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=XLq0ruwkcOQS_6roWpamLw&_nc_ss=7b2a8&oh=00_AQHxqqGeDmuzu6eP35bkOkQTB4sCNiQwpSc1kODEffpCVQ&oe=6A7FA7B7" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 5 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472871849_632760582650201_7413481970626673511_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-WZrXQVGHwwQ7kNvwH5a-10&_nc_oc=Adr96tkYG1Btk8jZYwuUrVQutqi9498TcrCi25ZPC8-JEyce_kbwvCJ4EPYJQLThnk0&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=OuhHrL_JKpofwmnRsZL6RA&_nc_ss=7b2a8&oh=00_AQGvW0wTRZuAfTch9tMPHD9dpJqUuSm9_A9uyVh5pGSpEQ&oe=6A7FB58E" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 6 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472918802_632760535983539_7448423869036096979_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=YYh8E_5YqYgQ7kNvwG9VQm9&_nc_oc=AdqM77NC8N3lZafRkeZMSbQ6db7LqPxdSd2UAHKPOo29H7PvWgebXcN20ymrAv4m0aw&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=BycHM87EREByqJyq__stcg&_nc_ss=7b2a8&oh=00_AQFheo9FVY-YiteupHvQoObfQBwtbmV6HCam6uhq89QPsA&oe=6A7F9ADA" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 7 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472819217_632760855983507_8658669886280596557_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hl66VLjv5AQQ7kNvwHxCxFb&_nc_oc=AdoSxZrc2vHKqGhc2KljoX4tESpxMWeeZmlxdgk3KkEdOtPV3D3_CjkO0Dgc4UbFhho&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=VbTq8cC-AtzVJ21mKiQysA&_nc_ss=7b2a8&oh=00_AQF3rD3p0RHKFsEUamXc4gkZdJxLKcrIqxwGxA8T_6rOLA&oe=6A7F9751" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 8 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472964151_632760719316854_3356795902779597228_n.jpg?stp=dst-jpg_tt6&cstp=mx1152x2048&ctp=s1152x2048&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hQSfc_yKVnwQ7kNvwEDrL58&_nc_oc=AdrEo1GcKRyTUtl8iqprAkNnQuT7KxKJOVySxGogKltxTZ1SBQX9cROOiOOCcQ-gVCE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=51-FylwFCeHljuSRp194hg&_nc_ss=7b2a8&oh=00_AQGYsMB0E_82TKpgffULPFynuelD8FxCV7Rv4Dhci4VqkQ&oe=6A7FBDA5" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 9 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/473014432_632760769316849_3133685095107313301_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=LiOY1nN4yboQ7kNvwGJSArU&_nc_oc=Adrf3sldozpMWpWb-J19eVJeqKn9mdEUGEe-Y7kj_-Cw52FR4F5RQvWqALJjsaWvNlE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=fBnP9LKU6pLihcjNUf0mGA&_nc_ss=7b2a8&oh=00_AQEgo76y0d7_YcPDhAjInQEvESeW4Vt9ukRZhC-s-cmcZw&oe=6A7FC6C8" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 10 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472791823_632760822650177_8209471198146137327_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=wsforUTaPewQ7kNvwGEoUaw&_nc_oc=AdopvNpUVgrIGxP81GqMZJLNTTLuYBPP7jJ-jCpRizp9hTAKq-CMiTpjGwrs9d5rWmw&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=tQW1tIHIfoEZps6wIQF6_g&_nc_ss=7b2a8&oh=00_AQFIQmu8OytWGtPEVpAEmuMDVgrIqMLKvzd9ZlGSWchTkg&oe=6A7F9FC2" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 11 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472749112_632761012650158_9217860555576161177_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=nDgnWHaYrtUQ7kNvwEizIKM&_nc_oc=AdpO0O55cE2_vm8GR1a7YVRIUgntwHUJEbMrV17wQCuJZvxdtBMqx6JTGgLz0yIkAlk&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=BvKH2dB5ot9obmLMzp9J3g&_nc_ss=7b2a8&oh=00_AQGJVIBOfunGp8ynLcQ3S0-6eZh-feUaQA9hZprANLryzg&oe=6A7FA4D4" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 12 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/473009466_632760859316840_2166405347804927793_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=DRw2PcLZ6TsQ7kNvwEet3yt&_nc_oc=Ado1lDK5XbhBETAMuxUB3ilMAwMPaPnku5LhIgOHOpuOcJB6DJOzXE-eWsL71d4KwYI&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=r43nw0aQfWqsgDMCrhjfLA&_nc_ss=7b2a8&oh=00_AQG8R-EdOIUXVbxW5kOD3PJwoDP3i_lT0CjlFjkZGciyDg&oe=6A7FB7AF" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 13 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/473015905_632760895983503_4573435131773874068_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=2Ak8e2ESDQwQ7kNvwGge6eh&_nc_oc=Ado3CvqFxczrnIH4Mc_8_bwHaIKhDBhS532G-6p8itkw4wwN56-0JFduOgcChPXWmtQ&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=YVI0ML3x2FNHgeqZHXf1Ug&_nc_ss=7b2a8&oh=00_AQHeWpoJ76mhH89eFkGNnVDO_oPhn67kUlruAD2z8mFYBQ&oe=6A7F9357" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 14 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/473083560_632760645983528_747899192512448145_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ZzZOvaT6WlsQ7kNvwFPpZoY&_nc_oc=Adr24CF_SQRcb-GHdVvC7pVsXi_A_p8S7FcedujEaIqwiM90CmJ5glnIjbpeX119gY0&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=iRmGJx2JHZrEYXtR-ICxOg&_nc_ss=7b2a8&oh=00_AQHj_0T_aovRArYPr6QE323ZgDSG65BA0ANC_XBoBjzILA&oe=6A7F941A" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 15 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/473078067_632760682650191_2547614102334039218_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=KjOUWuGf9y4Q7kNvwHXkkn9&_nc_oc=Ado7ClulXF6oh9sIm-UzFp4VLJJ2tK4uQPbOAca6QI63fVgbO9Is8DwWidvk5CbXN6w&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=ZnQf-i3abRMkELXkeMO0rQ&_nc_ss=7b2a8&oh=00_AQEPhNCfF64hoAaQwA7AOOF7JSr6Qxux6b-1hkq3RLQkrg&oe=6A7FBDD1" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 16 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472773826_632760789316847_7777221656418019741_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=FpwCJS7S4C8Q7kNvwHl5E9x&_nc_oc=AdpB5xN-0ni98qFPnR8yjecAgjW_a-wHpQVSus9KdJya0VvpaF_NuvC3cAWIotFluR0&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=CEGkQVaqIEFmU0LBj41kTQ&_nc_ss=7b2a8&oh=00_AQFqoGH8ZBAQ9iJYAgjBoHUGSYdKKgkyb0NlBwIU-ZwuqA&oe=6A7FB08B" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 17 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472820777_632760679316858_437670079205675228_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xQMaoVq2De8Q7kNvwFf2TyB&_nc_oc=Adp7YZAqnRYPnFrRtvpSSWvzTc87IjcJC8eNgZ9tM8NCBwb9c4rI1Khdg7pMwHCH9KE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=XMJA3TZuwsH-kVriBdOxYA&_nc_ss=7b2a8&oh=00_AQHt1aRp9fOAu_duz9nuMZV5LgZK1APRP8z_Od_VUSlzKw&oe=6A7FA856" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 18 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472910120_632760562650203_6568298430905582141_n.jpg?stp=dst-jpg_tt6&cstp=mx960x540&ctp=s960x540&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=EKFNn7JaacMQ7kNvwGdPXL-&_nc_oc=AdojV98yCwIJALRazTSJxM8RzKhDu-DO--ARcIK_Pf8xqCTCqUjUIwt8wxBS81fLVK4&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=9aVXF3VvAg_LtxcEPEsvJQ&_nc_ss=7b2a8&oh=00_AQF5JHXcccdTPCcQH_lx96Llump3m6D3M6ijyyhKmJEe3g&oe=6A7FBB7E" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 19 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472876905_632760809316845_7867716891312874829_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=WlZ9eXwMAdQQ7kNvwE1WlIw&_nc_oc=AdpYLr0EM5rGPHxmjQs4pPQYM9I1nkoLZTeG1v2ZxZ0Um4O7G9Anr06tUmIuVWp2RcY&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=ZSfmtWGWIRiRL9651chB5g&_nc_ss=7b2a8&oh=00_AQETxGs_gM9hRYvouzxjHmMi1vpi_JAxktCU8U_rWMY8nA&oe=6A7FA27E" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 20 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472740442_632760649316861_2221933545844182911_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=z3rcp_sZWcEQ7kNvwGPeYDw&_nc_oc=AdrQgY_KoMntkq_cSv4Yxd_gVSWkLP9yGH8ZfL5J52U1aMun_POjuO7n1vAEMztZ_84&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=ys2nYyXRJzYPJVlp6x26Pw&_nc_ss=7b2a8&oh=00_AQGhfQJ2LIRMM-qLx0KvHi9FWTfSoFKeJgRJY_u46P-9TA&oe=6A7FC45C" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 21 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472950835_632760759316850_6817563575052549067_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=XkC5Q7p6AYsQ7kNvwHY3q60&_nc_oc=AdqKTcYFRSeYYd_Gi-ESwfT6SJW5jbxl5SMBV-KWcWU-D8X3MXaW5fgAvqTUX606vi0&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=fp_vhSaSpFH42-cF98lqXw&_nc_ss=7b2a8&oh=00_AQG4sw6Hd5SR_Z_In5NuQQ3-CCb-2m6hetTfLrv-7NJcdQ&oe=6A7F98F0" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 22 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472910126_632760775983515_7761392405399295727_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=wVkqYYP0dhwQ7kNvwGWamVy&_nc_oc=Ador93RRu-F6hZkDQu390SdITXIEu9LYd3M3kfhG06EoKpeTM0L0tKvES9vTi-0KMBI&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=Cs5PcdJxcwMoIP1wGrFx4g&_nc_ss=7b2a8&oh=00_AQE4TNZeKOeIoy7pztNdg3ge5iXqzv8Xk0iCf2_5W_2DRw&oe=6A7FA12F" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 23 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472949052_632760772650182_2886645288066721014_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=GNPqed4CTWcQ7kNvwFim8lb&_nc_oc=AdrFwcEVL_KGetAsL0A2KaEvkBxo0wx6KcBsXH1fJXoMbjOd5WTGpqxNsdUT4SiKlMs&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=wPAnW_xS3ICE7xgK93XmQQ&_nc_ss=7b2a8&oh=00_AQGFeJyDOldIHtHeYyWOaRlXVNDIW2qQnQnw1p2P-eW_sQ&oe=6A7FBC26" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 24 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472774580_632760652650194_5611083726970456477_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=9fjXIQOz40QQ7kNvwFp6heo&_nc_oc=Adpb1CiHE-zJK45cYP_Vo5twr5akbzLOYBfYL46CTYuiqBhOkTlB1UvaJzWV8WH7usM&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=ZD8Q41VcHe-X38rSd0EB3Q&_nc_ss=7b2a8&oh=00_AQHiiHrI6G2dNWX4u_a0LmZk9CtHNNlYbwPTydHgEg-RPw&oe=6A7FB32D" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 25 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/473013585_632760745983518_2285947681544898186_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=_Zk3RxF2XCsQ7kNvwHLjApf&_nc_oc=AdoeYxW1tq5tgcXsQu5x8zVRvFW9Kp3fTZUX-BwkPPqSYT-iQdapH3bMu6YUfK3srhY&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=lBmHOpCYWakum6fszr5-0Q&_nc_ss=7b2a8&oh=00_AQFv3TrFcaTTXP1iSBioP43xm36gzjecoSzIoOsTr5Oj1A&oe=6A7FAC2E" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 26 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472794442_632760702650189_4284371854693103149_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=WWAbnIq_7RwQ7kNvwHF_-lY&_nc_oc=AdrspXUx7b5_lLV2pLKHrnm7xw157jtRtntpIk-Ek3jCpEvrc-SqeU0RZ_XppPP2R1c&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=HT0H5cPk2JLZQCwwQWICnw&_nc_ss=7b2a8&oh=00_AQHriCS6X7v5vmDxtou53lRtMs7zIFMPtaf8IEd2VVbjkA&oe=6A7FC4EC" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 27 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472753897_632761019316824_2517529963394797293_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-RlPyIgHS-sQ7kNvwHC8P_5&_nc_oc=AdrY_HfihcwfsMjJQaLKo2G4j9znaYVNiPXhRl5F4Y8-IU0qcKeaEHOD-LCQN6eGNzg&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=wu_j7MKpwoop1L5bw2f2jQ&_nc_ss=7b2a8&oh=00_AQGe-ci8A3nXMh8TE7QwxCXMWo7IalaxTJ3I0tvZ4-P6pg&oe=6A7FC857" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 28 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472748957_632760889316837_1786613004644799962_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=s_c4-mLn58YQ7kNvwHhH4fv&_nc_oc=AdpD-B3JRh-PHEQJ3w-k81wPr5sZea_Hd09LVLKjwze3kPG0UJKt6x2HexVQRfHDQwk&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=xvgr-xA9MCZkRnm-uGf3Rg&_nc_ss=7b2a8&oh=00_AQEfv7BWGniL8KuT-B2OBxrfm6gQAM1uD9Si1rE73Cop_Q&oe=6A7FACC6" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 29 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/473021036_632760882650171_7555413808603026658_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=dYL2fh9-vqgQ7kNvwHuYeIt&_nc_oc=AdpWFHWDP4-WCs4sXFCMVfR5OMUbT8QndWbb3XeWOnqKFe664zKzUAqsDx8lUCv8cjA&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=b4FAmt0MDfe-DYW2Qi73qQ&_nc_ss=7b2a8&oh=00_AQGQeAA1NxBlH8dZIDA3xdS22LJJRzV2BUalUsQ9GRHW-g&oe=6A7FAA8E" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 30 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472897815_632760705983522_410044597141101016_n.jpg?stp=dst-jpg_tt6&cstp=mx768x1024&ctp=s768x1024&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=mxdvsK12oiwQ7kNvwHPiac-&_nc_oc=Ado_3DLTTzJOCGex53SUj65XnnpgoXnBH1AqOpY49ZbP7_nC15DZhV3vvJ176gYoNRY&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=8vzEHE8quGwBDAm9V00GcA&_nc_ss=7b2a8&oh=00_AQHka3Rh68RkPi8TLE-Zz2mlZM--bsuylJ6llHSNIekFGQ&oe=6A7FC592" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 31 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472811820_632760732650186_399119502288357709_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=56es1yzVnLgQ7kNvwE7rXy9&_nc_oc=AdodckTcakkwKh-58qbTSqw14I0rrHr-zIj5lfL-_tAnBs6zKcz-zMgIB60Ioxpx44w&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=0hQBuTdvK705zc46Ry5Isw&_nc_ss=7b2a8&oh=00_AQEuSCdhh0Za6Xytl92vlH3m1_QU2i8EDNTN7amtHJnX9g&oe=6A7FC6DE" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+          <!-- Slide 32 -->
+          <div class="galleria-slide">
+            <img src="https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472872928_632760765983516_5326880083168997019_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xgoA2ghS-GwQ7kNvwFqVl2n&_nc_oc=Ado6xvkOCeLG0HP9qy246x4G6BWcSPZDxRcWpqdqsEx7iaqcwZhnzGz0k2AXxoKBb54&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=ZBb7_sSd0cFaWdiD-Mogcg&_nc_ss=7b2a8&oh=00_AQHyTA2DCUMy16JPwHaEP9tHSlMCN74S_08eJgqoMkZXpg&oe=6A7FC471" alt="Cantiere Spidi Costruzioni" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Contatti e Mappa con Form di Invio Messaggi -->
+  <section class="contatti-section" id="contatti">
+    <div class="section-container">
+      
+      <!-- Titolo di Sezione in Alto (Solo su Mobile/Tablet) -->
+      <div class="contatti-header-mobile" style="max-width: 1200px; margin: 0 auto 30px auto; padding: 0 40px; box-sizing: border-box;">
+        <h2 class="section-title" style="margin-top: 10px; margin-bottom: 20px;">Parliamo del<br>tuo progetto</h2>
+        <p style="font-family: 'Google Sans Flex', 'Inter', sans-serif; font-size: 15px; color: #555552; line-height: 1.6; margin: 0;">
+          Hai in mente una nuova costruzione, una ristrutturazione o un intervento di restauro? Compila il modulo di seguito per inviarci un messaggio, oppure utilizza i nostri recapiti diretti.
+        </p>
+      </div>
+
+      <div class="contatti-grid" style="max-width: 1200px; margin: 0 auto; padding: 0; box-sizing: border-box;">
+        
+        <!-- Colonna di Sinistra: Form Contatti (sopra su mobile) -->
+        <div class="contatti-form-column">
+          <div class="contatti-form-wrapper" style="border: 2px solid #121210; padding: 40px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); background-color: #FFFFFF;">
+            <h3 class="form-title" style="margin-top: 0; margin-bottom: 24px;">Invia un messaggio</h3>
+            <form id="contattiForm" novalidate>
+              <div class="form-group">
+                <input type="text" id="nome" class="form-control" placeholder="Il tuo nome *" required>
+              </div>
+              <div class="form-group">
+                <input type="email" id="email" class="form-control" placeholder="Indirizzo Email *" required>
+              </div>
+              <div class="form-group">
+                <input type="tel" id="telefono" class="form-control" placeholder="Numero di telefono">
+              </div>
+              <div class="form-group">
+                <select id="servizio" class="form-control" required style="cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23121210%22 stroke-width=%222.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22m6 9 6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 18px center; padding-right: 40px; color: #555552;">
+                  <option value="" disabled selected>Tipo di intervento *</option>
+                  <option value="Nuova Costruzione">Nuova Costruzione</option>
+                  <option value="Ristrutturazione">Ristrutturazione</option>
+                  <option value="Manutenzione">Manutenzione</option>
+                  <option value="Restauro">Restauro</option>
+                  <option value="Altro">Altro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <textarea id="messaggio" class="form-control" placeholder="Come possiamo aiutarti? *" required></textarea>
+              </div>
+              
+              <label class="form-privacy" for="privacyCheckbox">
+                <input type="checkbox" id="privacyCheckbox" required>
+                <span class="form-privacy-label">
+                  Acconsento al trattamento dei dati personali ai sensi della <a href="#" id="openPrivacyModal">Privacy Policy</a> *
+                </span>
+              </label>
+              
+              <button type="submit" class="form-submit-btn">Invia Messaggio</button>
+              
+              <div id="formResponse" class="form-response-message"></div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Colonna di Destra: Info Recapiti (sotto su mobile) -->
+        <div class="contatti-info-column" style="display: flex; flex-direction: column; justify-content: flex-start; gap: 40px;">
+          
+          <!-- Titolo e Descrizione (Solo su PC) -->
+          <div class="contatti-header-desktop">
+            <h2 class="section-title" style="margin-top: 10px; margin-bottom: 20px; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.15;">Parliamo del<br>tuo progetto</h2>
+            <p style="font-family: 'Google Sans Flex', 'Inter', sans-serif; font-size: 15px; color: #555552; line-height: 1.6; margin: 0;">
+              Hai in mente una nuova costruzione, una ristrutturazione o un intervento di restauro? Compila il modulo a fianco per inviarci un messaggio, oppure utilizza i nostri recapiti diretti.
+            </p>
+          </div>
+
+          <!-- Recapiti vicini su PC -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <h3 class="form-title" style="margin-top: 0; margin-bottom: 20px;">Recapiti Diretti</h3>
+            <div class="info-links-list">
+              <!-- Indirizzo -->
+              <a href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x47816b53bab9e545:0xbb5d8cc57d59666?sa=X&ved=1t:8290&ictx=111" target="_blank" rel="noopener" class="info-link-item">
+                <div class="info-icon-wrapper">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </div>
+                <div class="info-text-group">
+                  <span class="info-label">Indirizzo</span>
+                  <span class="info-value">Viale Aldo Moro, 32, 24054 Calcio (BG)</span>
+                </div>
+              </a>
+              
+              <!-- Telefono -->
+              <a href="tel:+393804345469" class="info-link-item">
+                <div class="info-icon-wrapper">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </div>
+                <div class="info-text-group">
+                  <span class="info-label">Telefono</span>
+                  <span class="info-value">380 434 5469</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Privacy Policy (Conforme GDPR) -->
+  <div class="privacy-modal" id="privacyModal">
+    <div class="privacy-modal-content">
+      <button class="privacy-modal-close" id="closePrivacyModal">&times;</button>
+      <h3 class="privacy-title">Informativa sulla Privacy</h3>
+      <div class="privacy-text">
+        <p><strong>1. Titolare del Trattamento</strong><br>
+        Il titolare del trattamento Ã¨ <strong>Spidi Costruzioni S.r.l.</strong> con sede legale in Viale Aldo Moro, 32 - 24054 Calcio (BG), P.IVA 04352010161.</p>
+        
+        <p><strong>2. Tipologia di Dati Raccolti</strong><br>
+        I dati raccolti tramite questo modulo comprendono: nome, indirizzo email, eventuale recapito telefonico e il testo del messaggio inviato.</p>
+        
+        <p><strong>3. FinalitÃ  del Trattamento</strong><br>
+        I dati personali vengono raccolti e utilizzati esclusivamente al fine di rispondere alle richieste di informazioni o preventivi inoltrate spontaneamente dall'utente.</p>
+        
+        <p><strong>4. Base Giuridica</strong><br>
+        Il trattamento dei dati si fonda sul consenso esplicito dell'utente, espresso tramite la spunta della casella di accettazione presente su questo modulo.</p>
+        
+        <p><strong>5. Conservazione dei Dati</strong><br>
+        I dati saranno conservati solo per il tempo strettamente necessario a gestire la richiesta dell'utente e non verranno ceduti a terzi per scopi promozionali o commerciali.</p>
+        
+        <p><strong>6. Diritti dell'Interessato</strong><br>
+        L'utente puÃ² richiedere in qualsiasi momento l'accesso, la rettifica, la cancellazione o la limitazione del trattamento dei suoi dati personali inviando una comunicazione scritta ai recapiti presenti nella sezione Contatti del sito.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Decente (Premium & Professionale) -->
+  <footer class="site-footer">
+    <div class="section-container">
+      <div class="footer-grid">
+        <!-- Colonna Logo -->
+        <div class="footer-col-brand">
+          <a href="#" class="footer-logo">
+            <img src="LOGO.png" alt="Icona Spidi Costruzioni" class="footer-logo-icon">
+            <span class="footer-logo-text">SPIDI COSTRUZIONI<span class="srl">SRL</span></span>
+          </a>
+          <p class="footer-brand-desc">Edilizia residenziale, spazi commerciali e ristrutturazioni di pregio, con la massima cura del dettaglio e della qualitÃ  costruttiva.</p>
+        </div>
+        
+        <!-- Colonna Link Navigazione -->
+        <div class="footer-col-links">
+          <h4 class="footer-title">Navigazione</h4>
+          <ul class="footer-links-list">
+            <li><a href="#">Home</a></li>
+            <li><a href="#servizi">Servizi</a></li>
+            <li><a href="#progetti-galleria">Galleria</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+          </ul>
+        </div>
+        
+        <!-- Colonna Dati Societari / Informazioni -->
+        <div class="footer-col-info">
+          <h4 class="footer-title">Spidi Costruzioni S.r.l.</h4>
+          <ul class="footer-info-details">
+            <li>Sede Legale: Viale Aldo Moro, 32 - 24054 Calcio (BG)</li>
+            <li>Partita IVA: 04352010161</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Spidi Costruzioni S.r.l. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Script per la gestione dello slider di sfondi con autoplay -->
+  <script>
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const slides = document.querySelectorAll('.slide');
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    let autoplayTimer;
+
+    function startAutoplay() {
+      clearInterval(autoplayTimer);
+      autoplayTimer = setInterval(() => {
+        updateSlider(currentSlide + 1);
+      }, 10000); // Cambia automaticamente ogni 10 secondi
+    }
+
+    function updateSlider(index) {
+      // Rimuovi lo stato attivo e l'initial-load da tutti gli slide per resettare lo zoom e dissolvenza
+      slides.forEach(slide => {
+        slide.classList.remove('active');
+        slide.classList.remove('initial-load');
+      });
+
+      // Calcola l'indice corrente circolarmente
+      currentSlide = index;
+      if (currentSlide >= totalSlides) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = totalSlides - 1;
+
+      // Forza il reflow clonando l'immagine dello slide attivo per riavviare l'animazione di zoom da 1.0 a 1.07
+      const activeSlide = slides[currentSlide];
+      const img = activeSlide.querySelector('img');
+      const newImg = img.cloneNode(true);
+      img.parentNode.replaceChild(newImg, img);
+
+      // Rende attivo lo slide per far partire lo zoom e la dissolvenza in entrata
+      activeSlide.classList.add('active');
+
+      // Riparte il timer da zero sia per cambi automatici che manuali
+      startAutoplay();
+    }
+
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        updateSlider(currentSlide - 1);
+      });
+
+      nextBtn.addEventListener('click', () => {
+        updateSlider(currentSlide + 1);
+      });
+    }
+
+    // Inizia l'autoplay al caricamento iniziale
+    startAutoplay();
+
+    // Gestione dello scroll per attivare la classe sticky con sfondo nero
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) header.classList.add('scrolled');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Gestione Apertura/Chiusura Menu Mobile con animazione morfing
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (hamburgerBtn && mobileMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        // Alterna lo stato dell'hamburger (morfing in X)
+        hamburgerBtn.classList.toggle('open');
+        // Alterna l'apertura del menu
+        mobileMenu.classList.toggle('open');
+        // Alterna lo stato dell'header per nascondere/mostrare la riga bianca inferiore
+        if (header) {
+          header.classList.toggle('menu-open');
+        }
+      });
+
+    // Chiudi l'overlay al click su una delle voci di navigazione e aggiorna lo stato attivo
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          // Rimuove la classe active da tutte le voci e la assegna a quella cliccata
+          mobileNavLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+
+          hamburgerBtn.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          if (header) {
+            header.classList.remove('menu-open');
+          }
+        });
+      });
+      
+      // Chiudi il menu mobile anche cliccando sul logo
+      const logoLink = document.getElementById('logoLink');
+      if (logoLink) {
+        logoLink.addEventListener('click', () => {
+          hamburgerBtn.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          if (header) {
+            header.classList.remove('menu-open');
+          }
+        });
+      }
+    }
+  </script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({
+      duration: 1.5, // Scroll piÃ¹ lento e rilassato (premium)
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Curva di animazione fluida
+      smooth: true,
+      smoothTouch: false, // Meglio disattivarlo su touch per l'usabilitÃ  nativa
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Gestione link interni (ancore) con Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId !== '#') {
+          e.preventDefault();
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            lenis.scrollTo(targetElement);
+          }
+        } else {
+          e.preventDefault();
+          lenis.scrollTo(0); // Torna in cima
+        }
+      });
+    });
+
+    // Gestione Slider Prima e Dopo (Drag and Touch)
+    document.querySelectorAll('.before-after-card').forEach(card => {
+      const container = card.querySelector('.slider-container');
+      const beforeWrapper = card.querySelector('.before-wrapper');
+      const handle = card.querySelector('.slider-handle');
+      let isSliding = false;
+      let hasDragged = false;
+      let hasAnimated = false;
+
+      const slide = (clientX) => {
+        const rect = container.getBoundingClientRect();
+        let position = ((clientX - rect.left) / rect.width) * 100;
+        if (position < 0) position = 0;
+        if (position > 100) position = 100;
+        
+        beforeWrapper.style.width = `${position}%`;
+        handle.style.left = `${position}%`;
+      };
+
+      // Funzione comune per eseguire l'animazione visuale dimostrativa (wiggle)
+      const triggerWiggle = () => {
+        if (!hasDragged && !hasAnimated) {
+          hasAnimated = true;
+          card.classList.add('auto-animating');
+          
+          // Primo scivolamento verso sinistra
+          beforeWrapper.style.width = '35%';
+          handle.style.left = '35%';
+          
+          // Secondo scivolamento verso destra
+          setTimeout(() => {
+            if (!hasDragged) {
+              beforeWrapper.style.width = '65%';
+              handle.style.left = '65%';
+            }
+          }, 450);
+          
+          // Ritorno al centro
+          setTimeout(() => {
+            if (!hasDragged) {
+              beforeWrapper.style.width = '50%';
+              handle.style.left = '50%';
+            }
+          }, 900);
+          
+          // Ripristino per controllo manuale istantaneo
+          setTimeout(() => {
+            card.classList.remove('auto-animating');
+          }, 1300);
+        }
+      };
+
+      // Attiva all'hover del mouse su PC
+      card.addEventListener('mouseenter', triggerWiggle);
+
+      // Attiva automaticamente su mobile e PC quando la scheda entra a schermo durante lo scroll
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              triggerWiggle();
+              observer.unobserve(card); // Esegue l'animazione solo la prima volta
+            }
+          });
+        }, { threshold: 0.25 }); // Attiva quando il 25% della scheda Ã¨ visibile sullo schermo
+        observer.observe(card);
+      }
+
+      const startSliding = (e) => {
+        hasDragged = true;
+        card.classList.remove('auto-animating');
+        isSliding = true;
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        slide(x);
+      };
+
+      const stopSliding = () => {
+        isSliding = false;
+      };
+
+      const moveSliding = (e) => {
+        if (!isSliding) return;
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        slide(x);
+      };
+
+      // Eventi sul container per click e jump immediati
+      container.addEventListener('mousedown', startSliding);
+      container.addEventListener('touchstart', startSliding, { passive: true });
+
+      // Eventi globali per trascinamento fluido anche fuori dal container
+      window.addEventListener('mousemove', moveSliding);
+      window.addEventListener('touchmove', moveSliding, { passive: true });
+
+      window.addEventListener('mouseup', stopSliding);
+      window.addEventListener('touchend', stopSliding);
+    });
+
+    // Gestione Slider Galleria Fotografica (Infinito, Centrato e Robusto)
+    const galPrev = document.querySelector('.prev-gal');
+    const galNext = document.querySelector('.next-gal');
+    const galTrack = document.querySelector('.galleria-track');
+    
+    if (galPrev && galNext && galTrack) {
+      const slides = Array.from(document.querySelectorAll('.galleria-slide'));
+      const originalCount = slides.length;
+      
+      // Clona le slide per lo scorrimento infinito
+      const cloneCount = 4;
+      for (let i = 0; i < cloneCount; i++) {
+        const firstClone = slides[i].cloneNode(true);
+        const lastClone = slides[originalCount - 1 - i].cloneNode(true);
+        galTrack.appendChild(firstClone);
+        galTrack.insertBefore(lastClone, galTrack.firstChild);
+      }
+      
+      let allSlides = Array.from(document.querySelectorAll('.galleria-slide'));
+      let currentIndex = cloneCount; // Parte dalla prima slide originale
+      let isTransitioning = false;
+      
+      let autoplayInterval = null;
+      let interactionTimeout = null;
+      
+      const updateGal = (smooth = true) => {
+        if (smooth) {
+          galTrack.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+        } else {
+          galTrack.style.transition = 'none';
+        }
+        
+        allSlides.forEach(s => s.classList.remove('active'));
+        
+        const activeSlide = allSlides[currentIndex];
+        if (!activeSlide) return;
+        
+        activeSlide.classList.add('active');
+        
+        const container = document.querySelector('.galleria-slider-container');
+        if (!container) return;
+        
+        const containerWidth = container.offsetWidth;
+        const slideWidth = activeSlide.offsetWidth;
+        const slideOffsetLeft = activeSlide.offsetLeft;
+        
+        const targetOffset = slideOffsetLeft - (containerWidth / 2) + (slideWidth / 2);
+        
+        galTrack.style.transform = `translateX(-${targetOffset}px)`;
+      };
+      
+      // Ripristino istantaneo sui limiti (loop invisibile)
+      galTrack.addEventListener('transitionend', () => {
+        if (currentIndex >= originalCount + cloneCount) {
+          currentIndex = cloneCount;
+          updateGal(false);
+        } else if (currentIndex < cloneCount) {
+          currentIndex = originalCount + cloneCount - 1;
+          updateGal(false);
+        }
+      });
+      
+      const moveNext = () => {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentIndex++;
+        updateGal(true);
+        // Reset di sicurezza indipendente da transitionend (previene blocchi permanenti)
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 650);
+      };
+      
+      const movePrev = () => {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentIndex--;
+        updateGal(true);
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 650);
+      };
+      
+      // Funzioni Autoplay
+      const startAutoplay = () => {
+        stopAutoplay();
+        autoplayInterval = setInterval(() => {
+          moveNext();
+        }, 2000); // Scorre automaticamente ogni 2 secondi (tempo di attesa ridotto)
+      };
+      
+      const stopAutoplay = () => {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      };
+      
+      const resetAutoplayTimer = () => {
+        stopAutoplay();
+        if (interactionTimeout) {
+          clearTimeout(interactionTimeout);
+        }
+        // Riparte dopo 10 secondi di inattivitÃ  assoluta
+        interactionTimeout = setTimeout(() => {
+          startAutoplay();
+        }, 10000);
+      };
+      
+      galNext.addEventListener('click', () => {
+        moveNext();
+        resetAutoplayTimer();
+      });
+      
+      galPrev.addEventListener('click', () => {
+        movePrev();
+        resetAutoplayTimer();
+      });
+      
+      // Click diretto sulle immagini (anche quelle laterali grigie) per centrarle al volo
+      allSlides.forEach((slide, idx) => {
+        slide.addEventListener('click', () => {
+          if (currentIndex !== idx) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentIndex = idx;
+            updateGal(true);
+            resetAutoplayTimer();
+            setTimeout(() => {
+              isTransitioning = false;
+            }, 650);
+          }
+        });
+      });
+      
+      window.addEventListener('resize', () => {
+        updateGal(false);
+      });
+      
+      // Swipe Touch per smartphone
+      let startX = 0;
+      let isDragging = false;
+      
+      galTrack.addEventListener('touchstart', (e) => {
+        if (isTransitioning) return;
+        startX = e.touches[0].clientX;
+        isDragging = true;
+        stopAutoplay();
+      }, { passive: true });
+      
+      galTrack.addEventListener('touchmove', (e) => {
+        if (!isDragging || isTransitioning) return;
+        const currentX = e.touches[0].clientX;
+        const diffX = startX - currentX;
+        
+        if (Math.abs(diffX) > 40) {
+          isDragging = false;
+          if (diffX > 0) {
+            moveNext();
+          } else {
+            movePrev();
+          }
+          resetAutoplayTimer();
+        }
+      }, { passive: true });
+      
+      galTrack.addEventListener('touchend', () => {
+        isDragging = false;
+        resetAutoplayTimer();
+      });
+      
+      // Inizializza
+      window.addEventListener('load', () => {
+        updateGal(false);
+        startAutoplay();
+      });
+      
+      setTimeout(() => {
+        updateGal(false);
+        startAutoplay();
+      }, 200);
+    }
+
+    // Gestione Form Contatti & Modal Privacy Policy
+    const contattiForm = document.getElementById('contattiForm');
+    const formResponse = document.getElementById('formResponse');
+    const privacyModal = document.getElementById('privacyModal');
+    const openPrivacyModal = document.getElementById('openPrivacyModal');
+    const closePrivacyModal = document.getElementById('closePrivacyModal');
+
+    if (openPrivacyModal && privacyModal && closePrivacyModal) {
+      // Apertura Modal Privacy
+      openPrivacyModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.classList.add('open');
+      });
+
+      // Chiusura Modal Privacy
+      closePrivacyModal.addEventListener('click', () => {
+        privacyModal.classList.remove('open');
+      });
+
+      // Chiudi cliccando fuori dalla modale
+      window.addEventListener('click', (e) => {
+        if (e.target === privacyModal) {
+          privacyModal.classList.remove('open');
+        }
+      });
+    }
+
+    if (contattiForm) {
+      // Regola il colore del testo della select se non Ã¨ selezionato nulla
+      const servizioSelect = document.getElementById('servizio');
+      if (servizioSelect) {
+        servizioSelect.addEventListener('change', function() {
+          if (this.value) {
+            this.style.color = '#121210';
+          } else {
+            this.style.color = '#555552';
+          }
+        });
+      }
+
+      contattiForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const servizio = document.getElementById('servizio').value;
+        const messaggio = document.getElementById('messaggio').value.trim();
+        const privacyChecked = document.getElementById('privacyCheckbox').checked;
+
+        // Convalida di base
+        if (!nome || !email || !servizio || !messaggio) {
+          formResponse.className = 'form-response-message error';
+          formResponse.textContent = 'Per favore, compila tutti i campi obbligatori (*).';
+          return;
+        }
+
+        if (!privacyChecked) {
+          formResponse.className = 'form-response-message error';
+          formResponse.textContent = 'Ãˆ necessario accettare la Privacy Policy per procedere.';
+          return;
+        }
+
+        // Simulazione Invio Messaggio
+        formResponse.className = 'form-response-message success';
+        formResponse.textContent = 'Grazie per averci contattato! Il messaggio Ã¨ stato inviato con successo. Ti risponderemo al piÃ¹ presto.';
+        
+        // Resetta i campi
+        contattiForm.reset();
+        if (servizioSelect) {
+          servizioSelect.style.color = '#555552';
+        }
+      });
+    }
+
+    // Gestione Preloader Premium
+    const preloaderElement = document.getElementById("preloader");
+    if (preloaderElement) {
+      if (!sessionStorage.getItem("preloaderShown")) {
+        const progressBar = preloaderElement.querySelector(".preloader-bar");
+        
+        setTimeout(() => {
+          progressBar.style.width = "100%";
+          setTimeout(() => {
+            preloaderElement.classList.add("fade-out");
+            sessionStorage.setItem("preloaderShown", "true");
+            // Rimuovi dal DOM dopo l'animazione cosÃ¬ non blocca nulla
+            setTimeout(() => {
+              preloaderElement.remove();
+            }, 900);
+          }, 1200);
+        }, 200);
+      } else {
+        preloaderElement.remove();
+      }
+    }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Get-Content 'spidi-costruzioni.html' | Select-String -Pattern '<header|<nav|<a href|hamburger|menu-btn|nav-links' | Select-Object -First 30\")",
+      "Bash(grep -v \"/\\\\*\\\\|^\\\\s*//\")"
+    ]
+  }
+}

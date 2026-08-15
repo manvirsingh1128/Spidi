@@ -1,0 +1,1107 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galleria Cantieri | Spidi Costruzioni Srl</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: #121210;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      color: #FFFFFF;
+      overflow-x: hidden; /* Risolve il bug dello scorrimento orizzontale su telefono */
+    }
+
+    header {
+      position: fixed; /* Cambiato da absolute a fixed per rimanere in alto durante lo scroll */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10002; /* Sopra l'overlay del menu mobile */
+      background-color: rgba(18, 18, 16, 0); /* Trasparente all'inizio */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Riga iniziale molto sottile e discreta */
+      transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    /* Classe aggiunta tramite JS al superamento di 50px di scroll */
+    header.scrolled {
+      background-color: #121210; /* Sfondo solido nero del brand */
+      border-bottom-color: rgba(255, 255, 255, 0.08); /* Bordo ancora più sottile */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15); /* Ombra premium per staccarsi dallo sfondo */
+    }
+
+    /* Configurazione per prevenire conflitti quando il menu mobile è aperto */
+    header.menu-open {
+      background-color: transparent !important;
+      border-bottom-color: rgba(255, 255, 255, 0) !important;
+      box-shadow: none !important;
+    }
+    
+    /* Contenitore con margini laterali per PC (max-width grid) */
+    .nav-container {
+      max-width: 1220px; /* Ridotta per aumentare lo spazio vuoto ai lati */
+      margin: 0 auto;
+      padding: 18px 35px; /* Aumentato il margine interno laterale */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      transition: padding 0.35s ease, max-width 0.35s ease; /* Transizione fluida per altezza e larghezza dello scroll */
+    }
+
+    /* Allarga il contenitore dell'header e riduce il padding verticale quando si scorre la pagina */
+    header.scrolled .nav-container {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      max-width: 1400px; /* Allarga la barra a scorrimento su PC per dare respiro */
+    }
+
+    /* Logo Affiancato: Icona originale a sinistra (senza ritagli), Testo in HTML a destra */
+    .logo-container {
+      display: flex;
+      align-items: flex-end; /* Allinea il testo con l'icona dal basso */
+      gap: 15px;
+      text-decoration: none; /* Reset stile link */
+    }
+    
+    .logo-icon {
+      height: 36px; /* Logo ingrandito su desktop per maggior importanza visiva */
+      width: auto;
+      display: block;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; /* Testo del logo proporzionato all'icona più grande */
+      color: #FFFFFF;
+      letter-spacing: 0.02em;
+      line-height: 0.85;
+      display: flex;
+      align-items: baseline;
+      margin: 0;
+      padding: 0;
+      transform: translateY(3.5px); /* Offset ricalibrato per allineamento perfetto */
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      cursor: pointer;
+    }
+
+    .logo-text .srl {
+      font-size: 13px; /* SRL proporzionata */
+      color: #FFFFFF;
+      font-family: 'Bebas Neue', sans-serif;
+      margin-left: 4px;
+    }
+
+    /* Gruppo di destra: Menu + CTA */
+    .nav-right-group {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    /* Menu di Navigazione */
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 36px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 15px; /* Aumentato leggermente da 14px a 15px */
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      opacity: 0.8;
+      position: relative;
+      padding-bottom: 6px; /* Spazio per la linea sottostante */
+      transition: opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav-menu a:hover, .nav-menu a.active {
+      opacity: 1;
+    }
+
+    /* Linea di hover che si apre dal centro */
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1.5px;
+      background-color: #FFFFFF;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .nav-menu a:hover::after, .nav-menu a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* Dropdown navigazione (solo desktop) */
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu .dropdown-menu {
+      list-style: none;
+      margin: 0;
+      padding: 6px 0;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 230px;
+      background: #FFFFFF;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 300;
+    }
+
+    /* Ponte invisibile per non perdere l'hover durante il passaggio del mouse sul gap di 14px */
+    .nav-menu .dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: transparent;
+    }
+
+    .nav-menu li.has-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .nav-menu .dropdown-menu li {
+      position: static;
+    }
+
+    .nav-menu .dropdown-menu a {
+      display: block;
+      padding: 12px 22px;
+      color: #121210;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      opacity: 1;
+      white-space: nowrap;
+      transition: background-color 0.18s ease, padding-left 0.18s ease;
+    }
+
+    .nav-menu .dropdown-menu a:hover {
+      background-color: #f5f5f3;
+      padding-left: 28px;
+    }
+
+    .nav-menu .dropdown-menu a::after {
+      display: none !important;
+    }
+
+    .nav-menu .chevron-icon {
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .nav-menu li.has-dropdown:hover .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Bottone CTA a destra (Contatti) */
+    .cta-button {
+      background-color: #FFFFFF;
+      color: #000000;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px; /* Testo del bottone leggermente più grande */
+      font-weight: 600;
+      padding: 9px 28px; /* Meno alto e leggermente più largo */
+      border: none;
+      border-radius: 0px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-block;
+      transition: background-color 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Animazione di apparizione e discesa fluttuante per l'header */
+    @keyframes fadeInHeader {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .roll-text {
+      display: inline-flex;
+      overflow: hidden;
+      height: 1.2em;
+      line-height: 1.2;
+      position: relative;
+    }
+    .roll-text-inner {
+      display: block;
+      position: relative;
+      transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .roll-text-inner::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      display: block;
+    }
+    a:hover .roll-text-inner, a.active .roll-text-inner {
+      transform: translateY(-100%);
+    }
+
+    /* BREADCRUMB CAPSULE */
+    .breadcrumb-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .breadcrumb-nav a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumb-nav a:hover {
+      color: #FFFFFF;
+    }
+
+    .breadcrumb-separator {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .breadcrumb-current {
+      color: #FFFFFF;
+    }
+
+    /* HERO */
+    .gallery-hero {
+      height: 60vh;
+      min-height: 420px;
+      background-color: #121210;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #FFFFFF;
+      box-sizing: border-box;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+
+    .gallery-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: linear-gradient(rgba(18, 18, 16, 0.4), rgba(18, 18, 16, 0.95)), url('1.png');
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+      filter: brightness(0.6);
+    }
+
+    .gallery-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gallery-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 6.5vw, 75px);
+      letter-spacing: 0.02em;
+      margin: 0 0 16px 0;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .gallery-hero-subtitle {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(14px, 2.2vw, 17px);
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* GRID DI IMMAGINI */
+    .gallery-section {
+      background-color: #FFFFFF;
+      padding: 80px 0;
+      color: #121210;
+    }
+
+    .section-container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 35px;
+      box-sizing: border-box;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .gallery-card {
+      position: relative;
+      border: 1px solid #121210;
+      background-color: #F8F8F8;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Overlay semplice con icona di zoom (NO TESTO SEQUENZIALE) */
+    .gallery-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(18, 18, 16, 0.4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-card:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* LIGHTBOX DI NAVIGAZIONE MANUALE CON FRECCE */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(10, 10, 8, 0.95);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 82%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 80vh;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      object-fit: contain;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      user-select: none;
+      transform: scale(0.95);
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .lightbox.active .lightbox-image {
+      transform: scale(1);
+    }
+
+    .lightbox-btn {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1010;
+      transition: background-color 0.25s, transform 0.25s;
+    }
+
+    .lightbox-btn:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    .lightbox-prev {
+      left: -80px;
+    }
+
+    .lightbox-next {
+      right: -80px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -60px;
+      right: 0;
+      width: 44px;
+      height: 44px;
+    }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    /* === HAMBURGER BUTTON === */
+    .hamburger-menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 26px;
+      height: 17px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 10001;
+    }
+
+    .hamburger-menu-btn .line {
+      width: 100%;
+      height: 2px;
+      background-color: #FFFFFF;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger-menu-btn.open .line-1 {
+      transform: translateY(7.5px) rotate(45deg);
+      transform-origin: center;
+    }
+
+    .hamburger-menu-btn.open .line-2 {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu-btn.open .line-3 {
+      transform: translateY(-7.5px) rotate(-45deg);
+      transform-origin: center;
+    }
+
+    /* === MOBILE MENU OVERLAY === */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background-color: #0c0c0a;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      box-sizing: border-box;
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* === MOBILE MENU NAV === */
+    .mobile-menu-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding-top: 0;
+    }
+
+    /* === MOBILE NAV LINKS === */
+    .mobile-nav-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      opacity: 0.7;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .mobile-nav-link.active {
+      font-weight: 700;
+      opacity: 1;
+      border-bottom: 2px solid #FFFFFF;
+      padding-bottom: 4px;
+    }
+
+    /* RESPONSIVE PER LIGHTBOX ED HEADER (BUG FIXES PER TELEFONO) */
+    @media (max-width: 992px) {
+      .nav-right-group {
+        display: none;
+      }
+      .hamburger-menu-btn {
+        display: flex;
+      }
+      .lightbox-prev { left: 16px; bottom: -80px; }
+      .lightbox-next { right: 16px; bottom: -80px; }
+      .lightbox-content { margin-bottom: 80px; }
+    }
+
+    @media (max-width: 768px) {
+      .section-container {
+        padding: 0 20px; /* Ridotto per evitare overflow laterale su schermi piccoli */
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Ridotto da 320px a 260px per adattarsi a tutti i telefoni */
+        gap: 20px;
+      }
+      .nav-container {
+        padding: 18px 24px;
+      }
+      .logo-icon {
+        height: 24px;
+      }
+      .logo-text {
+        font-size: 20px;
+        transform: translateY(1.5px);
+      }
+      .logo-text .srl {
+        font-size: 9px;
+        margin-left: 2px;
+      }
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background-color: #0c0c0a;
+      padding: 80px 0 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: #FFFFFF;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+    }
+
+    .footer-brand-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .footer-title {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin: 0 0 20px 0;
+    }
+
+    .footer-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links-list a {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-list a:hover {
+      color: #FFFFFF;
+    }
+
+    .footer-info-details {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.5;
+    }
+
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copyright {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Sticky Identico all'Homepage -->
+  <header>
+    <div class="nav-container">
+      <a href="spidi-costruzioni.html" class="logo-container">
+        <img src="LOGO.png" alt="Icona Spidi Costruzioni" class="logo-icon">
+        <h1 class="logo-text">
+          SPIDI COSTRUZIONI<span class="srl">SRL</span>
+        </h1>
+      </a>
+
+      <!-- Gruppo di destra: Menu + Bottone CTA -->
+      <div class="nav-right-group">
+        <ul class="nav-menu">
+          <li class="has-dropdown">
+            <a href="servizi.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Servizi">Servizi</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="servizi.html">Tutti i Servizi</a></li>
+              <li><a href="residenziale.html">Edilizia Residenziale</a></li>
+              <li><a href="commerciale.html">Spazi Commerciali</a></li>
+              <li><a href="gdo.html">Grande Distribuzione</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="galleria.html" class="active">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Galleria">Galleria</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="galleria.html">Galleria</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="chi-siamo.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Chi siamo">Chi siamo</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="chi-siamo.html">Chi siamo</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="nav-cta">
+          <a href="contatti.html" class="cta-button">
+            <span class="roll-text"><span class="roll-text-inner" data-text="Contatti">Contatti</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hamburger per Mobile -->
+      <button class="hamburger-menu-btn" id="hamburgerBtn" aria-label="Menu">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay Identico all'Homepage -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <nav class="mobile-menu-nav">
+      <a href="spidi-costruzioni.html" class="mobile-nav-link">Home</a>
+      <a href="servizi.html" class="mobile-nav-link">Servizi</a>
+      <a href="galleria.html" class="mobile-nav-link active">Galleria</a>
+      <a href="contatti.html" class="mobile-nav-link">Contatti</a>
+      <a href="chi-siamo.html" class="mobile-nav-link">Chi siamo</a>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="gallery-hero">
+    <div class="gallery-hero-content">
+      <nav class="breadcrumb-nav">
+        <a href="spidi-costruzioni.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Galleria</span>
+      </nav>
+      <h2 class="gallery-hero-title">Galleria Cantieri</h2>
+      <p class="gallery-hero-subtitle">Fotografie reali e in tempo reale dai nostri cantieri edili sul territorio lombardo.</p>
+    </div>
+  </section>
+
+  <!-- Griglia Galleria -->
+  <section class="gallery-section">
+    <div class="section-container">
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Generata dinamicamente via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Overlay Manuale con freccette -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <!-- Bottone Chiudi -->
+      <button class="lightbox-btn lightbox-close" id="lightboxClose" aria-label="Chiudi">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Freccia Sinistra -->
+      <button class="lightbox-btn lightbox-prev" id="lightboxPrev" aria-label="Precedente">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Immagine Principale -->
+      <img src="" alt="Cantiere Spidi Costruzioni" class="lightbox-image" id="lightboxImage">
+
+      <!-- Freccia Destra -->
+      <button class="lightbox-btn lightbox-next" id="lightboxNext" aria-label="Successivo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Contatore Immagine -->
+      <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+    </div>
+  </div>
+
+  <!-- Footer Identico all'Homepage -->
+  <footer class="site-footer">
+    <div class="section-container">
+      <div class="footer-grid">
+        <div class="footer-col-brand">
+          <a href="spidi-costruzioni.html" class="footer-logo">
+            <span class="footer-logo-text">SPIDI COSTRUZIONI<span class="srl">SRL</span></span>
+          </a>
+          <p class="footer-brand-desc">Edilizia residenziale, uffici e ristrutturazioni di pregio in Lombardia, con massima trasparenza e qualità costruttiva.</p>
+        </div>
+        
+        <div class="footer-col-links">
+          <h4 class="footer-title">Navigazione</h4>
+          <ul class="footer-links-list">
+            <li><a href="spidi-costruzioni.html">Home</a></li>
+            <li><a href="servizi.html">Servizi</a></li>
+            <li><a href="galleria.html">Galleria</a></li>
+            <li><a href="chi-siamo.html">Chi siamo</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col-info">
+          <h4 class="footer-title">Spidi Costruzioni S.r.l.</h4>
+          <ul class="footer-info-details">
+            <li>Sede Legale: Viale Aldo Moro, 32 - 24054 Calcio (BG)</li>
+            <li>Partita IVA: 04352010161</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Spidi Costruzioni S.r.l. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+  <script>
+    // Inizializzazione Scorrimento Fluido Lenis
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      smooth: true
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Gestione dello scroll per l'header scrolled
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) header.classList.add('scrolled');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Array di immagini reali dei cantieri estratti da spidi-costruzioni.html
+    const cantiereImages = [
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472753992_632760565983536_3590188713275451739_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=XMI46jYMGqAQ7kNvwGL1riA&_nc_oc=Adp3nkOxrEkWBUKF0fEd9dFcNrV-hK6q-9vyp8ZqI3iLMorJR_7BqhlFX9I8hLy2dZE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=i7sRp-IDZr8f5fKqD1R81A&_nc_ss=7b2a8&oh=00_AQG9-YuTrlH6qVyG9qW-nd4KExePejKvdap6bUi3BstsJg&oe=6A7F9A40",
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472925731_632760539316872_2219788765293888447_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=VeFmc27NrHkQ7kNvwGbDoni&_nc_oc=Adrr4K4hjHq-1Wh_lexYh5FYtxkIAmxbyCNXkyYEMr15bm7GXgb1Dur0Owy_88OFcfc&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=uFjq6RVk36h7VWGiPf4Z3w&_nc_ss=7b2a8&oh=00_AQG1sme5nzxNFM24jR1xezkNVyj8g4u4kuOg-EstU_3zXQ&oe=6A7FBE5A",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472760250_632760939316832_6298617543829281260_n.jpg?stp=dst-jpg_tt6&cstp=mx1152x2048&ctp=s1152x2048&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=t1kHd9nSyp8Q7kNvwHA8TK6&_nc_oc=Adq-jVUaPjLMwCvLqV57XZ80aqw6v5UULnTEL7Ucy1lXEB3t9eicpe0r_NJHk-5qv7s&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=XLq0ruwkcOQS_6roWpamLw&_nc_ss=7b2a8&oh=00_AQHxqqGeDmuzu6eP35bkOkQTB4sCNiQwpSc1kODEffpCVQ&oe=6A7FA7B7",
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472918802_632760535983539_7448423869036096979_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=YYh8E_5YqYgQ7kNvwG9VQm9&_nc_oc=AdqM77NC8N3lZafRkeZMSbQ6db7LqPxdSd2UAHKPOo29H7PvWgebXcN20ymrAv4m0aw&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=BycHM87EREByqJyq__stcg&_nc_ss=7b2a8&oh=00_AQFheo9FVY-YiteupHvQoObfQBwtbmV6HCam6uhq89QPsA&oe=6A7F9ADA",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472819217_632760855983507_8658669886280596557_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hl66VLjv5AQQ7kNvwHxCxFb&_nc_oc=AdoSxZrc2vHKqGhc2KljoX4tESpxMWeeZmlxdgk3KkEdOtPV3D3_CjkO0Dgc4UbFhho&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=VbTq8cC-AtzVJ21mKiQysA&_nc_ss=7b2a8&oh=00_AQF3rD3p0RHKFsEUamXc4gkZdJxLKcrIqxwGxA8T_6rOLA&oe=6A7F9751",
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472964151_632760719316854_3356795902779597228_n.jpg?stp=dst-jpg_tt6&cstp=mx1152x2048&ctp=s1152x2048&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hQSfc_yKVnwQ7kNvwEDrL58&_nc_oc=AdrEo1GcKRyTUtl8iqprAkNnQuT7KxKJOVySxGogKltxTZ1SBQX9cROOiOOCcQ-gVCE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=51-FylwFCeHljuSRp194hg&_nc_ss=7b2a8&oh=00_AQGYsMB0E_82TKpgffULPFynuelD8FxCV7Rv4Dhci4VqkQ&oe=6A7FBDA5",
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/473014432_632760769316849_3133685095107313301_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=LiOY1nN4yboQ7kNvwGJSArU&_nc_oc=Adrf3sldozpMWpWb-J19eVJeqKn9mdEUGEe-Y7kj_-Cw52FR4F5RQvWqALJjsaWvNlE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=fBnP9LKU6pLihcjNUf0mGA&_nc_ss=7b2a8&oh=00_AQEgo76y0d7_YcPDhAjInQEvESeW4Vt9ukRZhC-s-cmcZw&oe=6A7FC6C8",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472791823_632760822650177_8209471198146137327_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=wsforUTaPewQ7kNvwGEoUaw&_nc_oc=AdopvNpUVgrIGxP81GqMZJLNTTLuYBPP7jJ-jCpRizp9hTAKq-CMiTpjGwrs9d5rWmw&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=tQW1tIHIfoEZps6wIQF6_g&_nc_ss=7b2a8&oh=00_AQFIQmu8OytWGtPEVpAEmuMDVgrIqMLKvzd9ZlGSWchTkg&oe=6A7F9FC2",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472749112_632761012650158_9217860555576161177_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=nDgnWHaYrtUQ7kNvwEizIKM&_nc_oc=AdpO0O55cE2_vm8GR1a7YVRIUgntwHUJEbMrV17wQCuJZvxdtBMqx6JTGgLz0yIkAlk&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=BvKH2dB5ot9obmLMzp9J3g&_nc_ss=7b2a8&oh=00_AQGJVIBOfunGp8ynLcQ3S0-6eZh-feUaQA9hZprANLryzg&oe=6A7FA4D4",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/473009466_632760859316840_2166405347804927793_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=DRw2PcLZ6TsQ7kNvwEet3yt&_nc_oc=Ado1lDK5XbhBETAMuxUB3ilMAwMPaPnku5LhIgOHOpuOcJB6DJOzXE-eWsL71d4KwYI&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=r43nw0aQfWqsgDMCrhjfLA&_nc_ss=7b2a8&oh=00_AQG8R-EdOIUXVbxW5kOD3PJwoDP3i_lT0CjlFjkZGciyDg&oe=6A7FB7AF",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/473015905_632760895983503_4573435131773874068_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=2Ak8e2ESDQwQ7kNvwGge6eh&_nc_oc=Ado3CvqFxczrnIH4Mc_8_bwHaIKhDBhS532G-6p8itkw4wwN56-0JFduOgcChPXWmtQ&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=YVI0ML3x2FNHgeqZHXf1Ug&_nc_ss=7b2a8&oh=00_AQHeWpoJ76mhH89eFkGNnVDO_oPhn67kUlruAD2z8mFYBQ&oe=6A7F9357",
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/473083560_632760645983528_747899192512448145_n.jpg?stp=dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ZzZOvaT6WlsQ7kNvwFPpZoY&_nc_oc=Adr24CF_SQRcb-GHdVvC7pVsXi_A_p8S7FcedujEaIqwiM90CmJ5glnIjbpeX119gY0&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=iRmGJx2JHZrEYXtR-ICxOg&_nc_ss=7b2a8&oh=00_AQHj_0T_aovRArYPr6QE323ZgDSG65BA0ANC_XBoBjzILA&oe=6A7F941A",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/473078067_632760682650191_2547614102334039218_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=KjOUWuGf9y4Q7kNvwHXkkn9&_nc_oc=Ado7ClulXF6oh9sIm-UzFp4VLJJ2tK4uQPbOAca6QI63fVgbO9Is8DwWidvk5CbXN6w&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=ZnQf-i3abRMkELXkeMO0rQ&_nc_ss=7b2a8&oh=00_AQEPhNCfF64hoAaQwA7AOOF7JSr6Qxux6b-1hkq3RLQkrg&oe=6A7FBDD1",
+      "https://scontent.fflr4-1.fna.fbcdn.net/v/t39.30808-6/472773826_632760789316847_7777221656418019741_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=FpwCJS7S4C8Q7kNvwHl5E9x&_nc_oc=AdpB5xN-0ni98qFPnR8yjecAgjW_a-wHpQVSus9KdJya0VvpaF_NuvC3cAWIotFluR0&_nc_zt=23&_nc_ht=scontent.fflr4-1.fna&_nc_gid=CEGkQVaqIEFmU0LBj41kTQ&_nc_ss=7b2a8&oh=00_AQFqoGH8ZBAQ9iJYAgjBoHUGSYdKKgkyb0NlBwIU-ZwuqA&oe=6A7FB08B",
+      "https://scontent.fflr4-2.fna.fbcdn.net/v/t39.30808-6/472820777_632760679316858_437670079205675228_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xQMaoVq2De8Q7kNvwFf2TyB&_nc_oc=Adp7YZAqnRYPnFrRtvpSSWvzTc87IjcJC8eNgZ9tM8NCBwb9c4rI1Khdg7pMwHCH9KE&_nc_zt=23&_nc_ht=scontent.fflr4-2.fna&_nc_gid=XMJA3TZuwsH-kVriBdOxYA&_nc_ss=7b2a8&oh=00_AQHriCS6X7v5vmDxtou53lRtMs7zIFMPtaf8IEd2VVbjkA&oe=6A7FA856"
+    ];
+
+    const grid = document.getElementById('galleryGrid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    
+    let currentIndex = 0;
+
+    // Genera la griglia fotografica
+    cantiereImages.forEach((src, idx) => {
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+      
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Opera Spidi Costruzioni`;
+      img.loading = 'lazy';
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'gallery-overlay';
+      
+      // Icona lente d'ingrandimento SVG (nessuna scritta Cantiere #)
+      overlay.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      `;
+      
+      card.appendChild(img);
+      card.appendChild(overlay);
+      
+      card.addEventListener('click', () => {
+        openLightbox(idx);
+      });
+      
+      grid.appendChild(card);
+    });
+
+    // Funzione apri lightbox
+    function openLightbox(index) {
+      currentIndex = index;
+      updateLightboxImage();
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Blocca lo scroll del body
+    }
+
+    // Aggiorna l'immagine attiva nel lightbox (solo contatore numerico pulito)
+    function updateLightboxImage() {
+      lightboxImage.src = cantiereImages[currentIndex];
+      lightboxCounter.innerText = `${currentIndex + 1} / ${cantiereImages.length}`;
+    }
+
+    // Funzioni di navigazione manuale (nessun auto-scroll!)
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % cantiereImages.length;
+      updateLightboxImage();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + cantiereImages.length) % cantiereImages.length;
+      updateLightboxImage();
+    }
+
+    // Chiudi lightbox
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto'; // Ripristina scroll
+    }
+
+    // Listener eventi click bottoni lightbox
+    document.getElementById('lightboxNext').addEventListener('click', nextSlide);
+    document.getElementById('lightboxPrev').addEventListener('click', prevSlide);
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+
+    // Chiudi cliccando fuori dall'immagine
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    // Navigazione da tastiera
+    window.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Swipe su dispositivi touch
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    lightbox.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    lightbox.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) nextSlide(); // Swipe sinistra -> successivo
+      if (touchEndX > touchStartX + 50) prevSlide(); // Swipe destra -> precedente
+    }
+
+    // Gestione Hamburger Menu Mobile
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (hamburgerBtn && mobileMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+      });
+
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburgerBtn.classList.remove('open');
+          mobileMenu.classList.remove('open');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
