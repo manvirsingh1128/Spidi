@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/spidi-costruzioni.html" }
+  ]
+}
