@@ -37,11 +37,11 @@
     /* Classe aggiunta tramite JS al superamento di 50px di scroll */
     header.scrolled {
       background-color: #121210; /* Sfondo solido nero del brand */
-      border-bottom-color: rgba(255, 255, 255, 0.08); /* Bordo ancora piÃ¹ sottile */
+      border-bottom-color: rgba(255, 255, 255, 0.08); /* Bordo ancora più sottile */
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15); /* Ombra premium per staccarsi dallo sfondo */
     }
 
-    /* Configurazione per prevenire conflitti quando il menu mobile Ã¨ aperto */
+    /* Configurazione per prevenire conflitti quando il menu mobile è aperto */
     header.menu-open {
       background-color: transparent !important;
       border-bottom-color: rgba(255, 255, 255, 0) !important;
@@ -83,7 +83,7 @@
 
     .logo-text {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px; /* Testo del logo proporzionato all'icona piÃ¹ grande */
+      font-size: 32px; /* Testo del logo proporzionato all'icona più grande */
       color: #FFFFFF;
       letter-spacing: 0.02em;
       line-height: 0.85;
@@ -239,9 +239,9 @@
       color: #000000;
       text-decoration: none;
       font-family: 'Google Sans Flex', 'Inter', sans-serif;
-      font-size: 13px; /* Testo del bottone leggermente piÃ¹ grande */
+      font-size: 13px; /* Testo del bottone leggermente più grande */
       font-weight: 600;
-      padding: 9px 28px; /* Meno alto e leggermente piÃ¹ largo */
+      padding: 9px 28px; /* Meno alto e leggermente più largo */
       border: none;
       border-radius: 0px;
       text-transform: uppercase;
@@ -427,7 +427,7 @@
       font-family: 'Google Sans Flex', 'Inter', sans-serif;
       font-size: 13px;
       font-weight: 600;
-      padding: 12px 36px; /* Meno alto e leggermente piÃ¹ largo */
+      padding: 12px 36px; /* Meno alto e leggermente più largo */
       border: none;
       border-radius: 0px; /* Rettangolo senza smussature */
       text-transform: uppercase;
@@ -673,7 +673,7 @@
       }
 
       .logo-text {
-        font-size: 20px; /* Testo ridotto a 20px per una perfetta leggibilitÃ  su mobile */
+        font-size: 20px; /* Testo ridotto a 20px per una perfetta leggibilità su mobile */
         transform: translateY(1.5px);
       }
 
@@ -694,7 +694,7 @@
       }
 
       .hero-title {
-        font-size: clamp(32px, 8.5vw, 48px); /* Titolo reso piÃ¹ grande e maestoso su mobile */
+        font-size: clamp(32px, 8.5vw, 48px); /* Titolo reso più grande e maestoso su mobile */
         line-height: 1.15;
       }
 
@@ -708,7 +708,7 @@
         width: 100%; /* Pulsante a larghezza intera su mobile */
         box-sizing: border-box;
         justify-content: center; /* Centra testo e freccia internamente */
-        padding: 14px 28px; /* Leggermente piÃ¹ alto per un feedback touch migliore */
+        padding: 14px 28px; /* Leggermente più alto per un feedback touch migliore */
         font-size: 13px;
       }
 
@@ -720,7 +720,7 @@
       }
 
       .slider-btn {
-        width: 42px; /* Dimensioni piÃ¹ compatte delle frecce slider */
+        width: 42px; /* Dimensioni più compatte delle frecce slider */
         height: 42px;
       }
     }
@@ -843,7 +843,7 @@
       margin: 0;
     }
 
-    /* Bottone Scopri di piÃ¹ */
+    /* Bottone Scopri di più */
     .scopri-btn {
       align-self: flex-start;
       margin-top: 20px;
@@ -1083,11 +1083,11 @@
       display: flex;
       gap: 32px;
       transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-      width: max-content; /* Ora Ã¨ sicuro usare max-content */
+      width: max-content; /* Ora è sicuro usare max-content */
     }
 
     .galleria-slide {
-      flex: 0 0 20vw; /* Rimpicciolite ancora di piÃ¹ su PC per mostrare piÃ¹ foto ai lati con un fantastico effetto profonditÃ  */
+      flex: 0 0 20vw; /* Rimpicciolite ancora di più su PC per mostrare più foto ai lati con un fantastico effetto profondità */
       aspect-ratio: 3 / 4;
       overflow: hidden;
       border: 1px solid rgba(0, 0, 0, 0.08);
@@ -1308,7 +1308,7 @@
     /* Form Contatti Premium */
     .contatti-form-wrapper {
       background-color: #FFFFFF;
-      border: 2px solid #121210; /* Bordo scuro leggermente piÃ¹ sottile per eleganza (2px) */
+      border: 2px solid #121210; /* Bordo scuro leggermente più sottile per eleganza (2px) */
       padding: 40px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
       box-sizing: border-box;
@@ -1672,6 +1672,39 @@
     }
 
 
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121210;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.8s ease;
+    }
+
+    .preloader.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .preloader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    .preloader-logo {
+      height: 64px;
+      width: auto;
+      margin-bottom: 24px;
+    }
+
     .preloader-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 36px;
@@ -1702,6 +1735,20 @@
       width: 0%;
       background-color: #FFFFFF;
       transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .hero-title,
+    .hero-subtitle,
+    .hero-btn,
+    .hero-slider-controls {
+      animation-play-state: paused;
+    }
+
+    body.page-ready .hero-title,
+    body.page-ready .hero-subtitle,
+    body.page-ready .hero-btn,
+    body.page-ready .hero-slider-controls {
+      animation-play-state: running;
     }
   </style>
 </head>
@@ -1825,7 +1872,7 @@
         <div class="hero-text-block">
           <h2 class="hero-title">Ristrutturazione e<br class="desktop-only-br">riqualificazione di immobili</h2>
           <p class="hero-subtitle">Edilizia residenziale e spazi commerciali, inclusa la Grande Distribuzione Organizzata (GDO)</p>
-          <a href="#preventivo" class="hero-btn">
+          <a href="#contatti" class="hero-btn">
             <span class="roll-text"><span class="roll-text-inner" data-text="Richiedi preventivo">Richiedi preventivo</span></span>
             <span class="btn-arrow-wrapper">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
@@ -1868,9 +1915,9 @@
             <img src="1!.webp" alt="Edilizia Residenziale" class="card-image">
           </div>
           <div class="card-footer-group">
-            <p class="ambito-desc">Ristrutturazione, restauro e riqualificazione energetica di appartamenti, villa e complessi abitativi, con finiture di alto livello.</p>
+            <p class="ambito-desc">Ristrutturazione, restauro e riqualificazione energetica di appartamenti, ville e complessi abitativi, con finiture di alto livello.</p>
             <a href="residenziale.html" class="scopri-btn">
-              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di piÃ¹">Scopri di piÃ¹</span></span>
+              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di più">Scopri di più</span></span>
               <span class="btn-arrow-wrapper">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
                   <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1891,9 +1938,9 @@
             <img src="2!.webp" alt="Spazi Commerciali" class="card-image">
           </div>
           <div class="card-footer-group">
-            <p class="ambito-desc">Realizzazione, progettazione e allestimento su misura di uffici, showroom, negozi, curando l'estetica e la funzionalitÃ  spaziale.</p>
+            <p class="ambito-desc">Realizzazione, progettazione e allestimento su misura di uffici, showroom, negozi, curando l'estetica e la funzionalità spaziale.</p>
             <a href="commerciale.html" class="scopri-btn">
-              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di piÃ¹">Scopri di piÃ¹</span></span>
+              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di più">Scopri di più</span></span>
               <span class="btn-arrow-wrapper">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
                   <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1914,9 +1961,9 @@
             <img src="3!.webp" alt="Grande Distribuzione Organizzata (GDO)" class="card-image" style="object-position: top;">
           </div>
           <div class="card-footer-group">
-            <p class="ambito-desc">Costruzione, ristrutturazione e manutenzione specialistica di supermercati e centri commerciali, garantendo velocitÃ  e continuitÃ .</p>
+            <p class="ambito-desc">Costruzione, ristrutturazione e manutenzione specialistica di supermercati e centri commerciali, garantendo velocità e continuità.</p>
             <a href="gdo.html" class="scopri-btn">
-              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di piÃ¹">Scopri di piÃ¹</span></span>
+              <span class="roll-text"><span class="roll-text-inner" data-text="Scopri di più">Scopri di più</span></span>
               <span class="btn-arrow-wrapper">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
                   <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1983,7 +2030,7 @@
           </div>
           <div class="project-info">
             <h3 class="project-title">Restauro Corte Interna</h3>
-            <p class="project-desc">Ripristino dell'intonaco ammalorato e tinteggiatura della facciata interna di una corte storica, risanando i dettagli architettonici e valorizzando la calda tonalitÃ  originaria.</p>
+            <p class="project-desc">Ripristino dell'intonaco ammalorato e tinteggiatura della facciata interna di una corte storica, risanando i dettagli architettonici e valorizzando la calda tonalità originaria.</p>
           </div>
         </div>
 
@@ -2008,7 +2055,7 @@
           </div>
           <div class="project-info">
             <h3 class="project-title">Ristrutturazione Villa</h3>
-            <p class="project-desc">Riqualificazione estetica ed energetica di una villa indipendente: tinteggiatura bicolore in tonalitÃ  sabbia e grigio-marrone, con rifacimento dei balconi e dei serramenti.</p>
+            <p class="project-desc">Riqualificazione estetica ed energetica di una villa indipendente: tinteggiatura bicolore in tonalità sabbia e grigio-marrone, con rifacimento dei balconi e dei serramenti.</p>
           </div>
         </div>
       </div>
@@ -2281,12 +2328,12 @@
       <h3 class="privacy-title">Informativa sulla Privacy</h3>
       <div class="privacy-text">
         <p><strong>1. Titolare del Trattamento</strong><br>
-        Il titolare del trattamento Ã¨ <strong>Spidi Costruzioni S.r.l.</strong> con sede legale in Viale Aldo Moro, 32 - 24054 Calcio (BG), P.IVA 04352010161.</p>
+        Il titolare del trattamento è <strong>Spidi Costruzioni S.r.l.</strong> con sede legale in Viale Aldo Moro, 32 - 24054 Calcio (BG), P.IVA 04352010161.</p>
         
         <p><strong>2. Tipologia di Dati Raccolti</strong><br>
         I dati raccolti tramite questo modulo comprendono: nome, indirizzo email, eventuale recapito telefonico e il testo del messaggio inviato.</p>
         
-        <p><strong>3. FinalitÃ  del Trattamento</strong><br>
+        <p><strong>3. Finalità del Trattamento</strong><br>
         I dati personali vengono raccolti e utilizzati esclusivamente al fine di rispondere alle richieste di informazioni o preventivi inoltrate spontaneamente dall'utente.</p>
         
         <p><strong>4. Base Giuridica</strong><br>
@@ -2296,7 +2343,7 @@
         I dati saranno conservati solo per il tempo strettamente necessario a gestire la richiesta dell'utente e non verranno ceduti a terzi per scopi promozionali o commerciali.</p>
         
         <p><strong>6. Diritti dell'Interessato</strong><br>
-        L'utente puÃ² richiedere in qualsiasi momento l'accesso, la rettifica, la cancellazione o la limitazione del trattamento dei suoi dati personali inviando una comunicazione scritta ai recapiti presenti nella sezione Contatti del sito.</p>
+        L'utente può richiedere in qualsiasi momento l'accesso, la rettifica, la cancellazione o la limitazione del trattamento dei suoi dati personali inviando una comunicazione scritta ai recapiti presenti nella sezione Contatti del sito.</p>
       </div>
     </div>
   </div>
@@ -2311,7 +2358,7 @@
             <img src="LOGO.png" alt="Icona Spidi Costruzioni" class="footer-logo-icon">
             <span class="footer-logo-text">SPIDI COSTRUZIONI<span class="srl">SRL</span></span>
           </a>
-          <p class="footer-brand-desc">Edilizia residenziale, spazi commerciali e ristrutturazioni di pregio, con la massima cura del dettaglio e della qualitÃ  costruttiva.</p>
+          <p class="footer-brand-desc">Edilizia residenziale, spazi commerciali e ristrutturazioni di pregio, con la massima cura del dettaglio e della qualità costruttiva.</p>
         </div>
         
         <!-- Colonna Link Navigazione -->
@@ -2460,10 +2507,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script>
     const lenis = new Lenis({
-      duration: 1.5, // Scroll piÃ¹ lento e rilassato (premium)
+      duration: 1.5, // Scroll più lento e rilassato (premium)
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Curva di animazione fluida
       smooth: true,
-      smoothTouch: false, // Meglio disattivarlo su touch per l'usabilitÃ  nativa
+      smoothTouch: false, // Meglio disattivarlo su touch per l'usabilità nativa
     });
 
     function raf(time) {
@@ -2554,7 +2601,7 @@
               observer.unobserve(card); // Esegue l'animazione solo la prima volta
             }
           });
-        }, { threshold: 0.25 }); // Attiva quando il 25% della scheda Ã¨ visibile sullo schermo
+        }, { threshold: 0.25 }); // Attiva quando il 25% della scheda è visibile sullo schermo
         observer.observe(card);
       }
 
@@ -2691,7 +2738,7 @@
         if (interactionTimeout) {
           clearTimeout(interactionTimeout);
         }
-        // Riparte dopo 10 secondi di inattivitÃ  assoluta
+        // Riparte dopo 10 secondi di inattività assoluta
         interactionTimeout = setTimeout(() => {
           startAutoplay();
         }, 10000);
@@ -2799,7 +2846,7 @@
     }
 
     if (contattiForm) {
-      // Regola il colore del testo della select se non Ã¨ selezionato nulla
+      // Regola il colore del testo della select se non è selezionato nulla
       const servizioSelect = document.getElementById('servizio');
       if (servizioSelect) {
         servizioSelect.addEventListener('change', function() {
@@ -2829,13 +2876,13 @@
 
         if (!privacyChecked) {
           formResponse.className = 'form-response-message error';
-          formResponse.textContent = 'Ãˆ necessario accettare la Privacy Policy per procedere.';
+          formResponse.textContent = 'È necessario accettare la Privacy Policy per procedere.';
           return;
         }
 
         // Simulazione Invio Messaggio
         formResponse.className = 'form-response-message success';
-        formResponse.textContent = 'Grazie per averci contattato! Il messaggio Ã¨ stato inviato con successo. Ti risponderemo al piÃ¹ presto.';
+        formResponse.textContent = 'Grazie per averci contattato! Il messaggio è stato inviato con successo. Ti risponderemo al più presto.';
         
         // Resetta i campi
         contattiForm.reset();
@@ -2855,8 +2902,8 @@
           progressBar.style.width = "100%";
           setTimeout(() => {
             preloaderElement.classList.add("fade-out");
+            document.body.classList.add("page-ready");
             sessionStorage.setItem("preloaderShown", "true");
-            // Rimuovi dal DOM dopo l'animazione cosÃ¬ non blocca nulla
             setTimeout(() => {
               preloaderElement.remove();
             }, 900);
@@ -2864,6 +2911,7 @@
         }, 200);
       } else {
         preloaderElement.remove();
+        document.body.classList.add("page-ready");
       }
     }
 
