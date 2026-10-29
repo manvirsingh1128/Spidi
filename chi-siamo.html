@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chi Siamo - Spidi Costruzioni S.r.l.</title>
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap" rel="stylesheet">
+  <!-- Caratteri salvati sul sito (nessuna richiesta a Google Fonts) -->
+  <link rel="stylesheet" href="fonts/fonts.css">
   
   <style>
     /* STILE BASE COERENTE CON L'HOMEPAGE */
@@ -616,6 +614,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 14px 24px;
+    }
+
+    /* Link Privacy e Termini nel fondo del footer */
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-legal a:hover {
+      color: #FFFFFF;
     }
 
     .footer-copyright {
@@ -774,8 +792,7 @@
         <div>
           <h4 class="footer-title">Contattaci</h4>
           <ul class="footer-links-list">
-            <li><a href="tel:+393456789012">Tel: +39 345 6789012</a></li>
-            <li><a href="mailto:info@spidicostruzioni.it">info@spidicostruzioni.it</a></li>
+            <li><a href="tel:+393804345469">Tel: +39 380 434 5469</a></li>
             <li><a href="mailto:spidicostruzioni@pec.it">PEC: spidicostruzioni@pec.it</a></li>
             <li style="margin-top: 15px; font-size: 13px; color: rgba(255,255,255,0.4);">
               Lun - Ven: 8:00 - 18:00
@@ -788,12 +805,16 @@
       
       <div class="footer-bottom">
         <p class="footer-copyright">&copy; 2026 Spidi Costruzioni S.r.l. Tutti i diritti riservati.</p>
+        <nav class="footer-legal" aria-label="Note legali">
+          <a href="privacy.html">Privacy</a>
+          <a href="termini.html">Termini</a>
+        </nav>
       </div>
     </div>
   </footer>
 
   <!-- Lenis Smooth Scroll -->
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+  <script src="js/lenis.min.js"></script>
 
   <script>
     // Inizializzazione Lenis

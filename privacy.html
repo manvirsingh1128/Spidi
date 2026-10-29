@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy | Spidi Costruzioni Srl</title>
+  <meta name="description" content="Informativa privacy del sito Spidi Costruzioni: il sito non usa cookie, moduli o statistiche e non raccoglie dati personali.">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Caratteri salvati sul sito (nessuna richiesta a Google Fonts) -->
+  <link rel="stylesheet" href="fonts/fonts.css">
+
+  <style>
+    /* STILE BASE COERENTE CON L'HOMEPAGE */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: #121210;
+      position: relative;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+    }
+
+    /* HEADER STICKY IDENTICO ALL'HOMEPAGE */
+    header {
+      position: fixed; /* Cambiato da absolute a fixed per rimanere in alto durante lo scroll */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10002; /* Sopra l'overlay del menu mobile */
+      background-color: rgba(18, 18, 16, 0); /* Trasparente all'inizio */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Riga iniziale molto sottile e discreta */
+      transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    /* Classe aggiunta tramite JS al superamento di 50px di scroll */
+    header.scrolled {
+      background-color: #121210; /* Sfondo solido nero del brand */
+      border-bottom-color: rgba(255, 255, 255, 0.08); /* Bordo ancora più sottile */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15); /* Ombra premium per staccarsi dallo sfondo */
+    }
+
+    /* Configurazione per prevenire conflitti quando il menu mobile è aperto */
+    header.menu-open {
+      background-color: transparent !important;
+      border-bottom-color: rgba(255, 255, 255, 0) !important;
+      box-shadow: none !important;
+    }
+    
+    /* Contenitore con margini laterali per PC (max-width grid) */
+    .nav-container {
+      max-width: 1220px; /* Ridotta per aumentare lo spazio vuoto ai lati */
+      margin: 0 auto;
+      padding: 18px 35px; /* Aumentato il margine interno laterale */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      transition: padding 0.35s ease, max-width 0.35s ease; /* Transizione fluida per altezza e larghezza dello scroll */
+    }
+
+    /* Allarga il contenitore dell'header e riduce il padding verticale quando si scorre la pagina */
+    header.scrolled .nav-container {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      max-width: 1400px; /* Allarga la barra a scorrimento su PC per dare respiro */
+    }
+
+    /* Logo Affiancato: Icona originale a sinistra (senza ritagli), Testo in HTML a destra */
+    .logo-container {
+      display: flex;
+      align-items: flex-end; /* Allinea il testo con l'icona dal basso */
+      gap: 15px;
+      text-decoration: none; /* Reset stile link */
+    }
+    
+    .logo-icon {
+      height: 36px; /* Logo ingrandito su desktop per maggior importanza visiva */
+      width: auto;
+      display: block;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; /* Testo del logo proporzionato all'icona più grande */
+      color: #FFFFFF;
+      letter-spacing: 0.02em;
+      line-height: 0.85;
+      display: flex;
+      align-items: baseline;
+      margin: 0;
+      padding: 0;
+      transform: translateY(3.5px); /* Offset ricalibrato per allineamento perfetto */
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      cursor: pointer;
+    }
+
+    .logo-text .srl {
+      font-size: 13px; /* SRL proporzionata */
+      color: #FFFFFF;
+      font-family: 'Bebas Neue', sans-serif;
+      margin-left: 4px;
+    }
+
+    /* Gruppo di destra: Menu + CTA */
+    .nav-right-group {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    /* Menu di Navigazione */
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 36px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 15px; /* Aumentato leggermente da 14px a 15px */
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      opacity: 0.8;
+      position: relative;
+      padding-bottom: 6px; /* Spazio per la linea sottostante */
+      transition: opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav-menu a:hover, .nav-menu a.active {
+      opacity: 1;
+    }
+
+    /* Linea di hover che si apre dal centro */
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1.5px;
+      background-color: #FFFFFF;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .nav-menu a:hover::after, .nav-menu a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* Dropdown navigazione (solo desktop) */
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu .dropdown-menu {
+      list-style: none;
+      margin: 0;
+      padding: 6px 0;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 230px;
+      background: #FFFFFF;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 300;
+    }
+
+    /* Ponte invisibile per non perdere l'hover durante il passaggio del mouse sul gap di 14px */
+    .nav-menu .dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: transparent;
+    }
+
+    .nav-menu li.has-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .nav-menu .dropdown-menu li {
+      position: static;
+    }
+
+    .nav-menu .dropdown-menu a {
+      display: block;
+      padding: 12px 22px;
+      color: #121210;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      opacity: 1;
+      white-space: nowrap;
+      transition: background-color 0.18s ease, padding-left 0.18s ease;
+    }
+
+    .nav-menu .dropdown-menu a:hover {
+      background-color: #f5f5f3;
+      padding-left: 28px;
+    }
+
+    .nav-menu .dropdown-menu a::after {
+      display: none !important;
+    }
+
+    .nav-menu .chevron-icon {
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .nav-menu li.has-dropdown:hover .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Bottone CTA a destra (Contatti) */
+    .cta-button {
+      background-color: #FFFFFF;
+      color: #000000;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px; /* Testo del bottone leggermente più grande */
+      font-weight: 600;
+      padding: 9px 28px; /* Meno alto e leggermente più largo */
+      border: none;
+      border-radius: 0px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-block;
+      transition: background-color 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Animazione di apparizione e discesa fluttuante per l'header */
+    @keyframes fadeInHeader {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .roll-text {
+      display: inline-flex;
+      overflow: hidden;
+      height: 1.2em;
+      line-height: 1.2;
+      position: relative;
+    }
+    .roll-text-inner {
+      display: block;
+      position: relative;
+      transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .roll-text-inner::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      display: block;
+    }
+    a:hover .roll-text-inner, a.active .roll-text-inner {
+      transform: translateY(-100%);
+    }
+
+    /* Definizione classe del contenitore per allineare i lati a 35px */
+    .section-container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 35px;
+      box-sizing: border-box;
+    }
+
+    /* === HAMBURGER BUTTON === */
+    .hamburger-menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 26px;
+      height: 17px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 10001;
+    }
+
+    .hamburger-menu-btn .line {
+      width: 100%;
+      height: 2px;
+      background-color: #FFFFFF;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger-menu-btn.open .line-1 {
+      transform: translateY(7.5px) rotate(45deg);
+      transform-origin: center;
+    }
+
+    .hamburger-menu-btn.open .line-2 {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu-btn.open .line-3 {
+      transform: translateY(-7.5px) rotate(-45deg);
+      transform-origin: center;
+    }
+
+    /* === MOBILE MENU OVERLAY === */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background-color: #0c0c0a;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      box-sizing: border-box;
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* === MOBILE MENU NAV === */
+    .mobile-menu-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding-top: 0;
+    }
+
+    /* === MOBILE NAV LINKS === */
+    .mobile-nav-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      opacity: 0.7;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .mobile-nav-link.active {
+      font-weight: 700;
+      opacity: 1;
+      border-bottom: 2px solid #FFFFFF;
+      padding-bottom: 4px;
+    }
+
+    /* BREADCRUMB PREMIUM DI NAVIGAZIONE */
+    .breadcrumb-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-sizing: border-box;
+    }
+
+    .breadcrumb-nav a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumb-nav a:hover {
+      color: #FFFFFF;
+    }
+
+    .breadcrumb-separator {
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 10px;
+    }
+
+    .breadcrumb-current {
+      color: #FFFFFF;
+    }
+
+
+    /* HERO PAGINE LEGALI (PIÙ BASSA E SENZA FOTO) */
+    .legal-hero {
+      height: 46vh;
+      min-height: 360px;
+      background-color: #121210;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #FFFFFF;
+      box-sizing: border-box;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+
+    .legal-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .legal-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 6.5vw, 75px);
+      letter-spacing: 0.02em;
+      margin: 0 0 16px 0;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .legal-hero-subtitle {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(14px, 2.2vw, 17px);
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0 auto;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    /* CONTENUTO PAGINE LEGALI (SFONDO BIANCO, UN BLOCCO PER ARGOMENTO) */
+    .legal-section {
+      background-color: #FFFFFF;
+      padding: 100px 0 120px 0;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    .legal-content {
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .legal-block-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: clamp(20px, 2.2vw, 24px);
+      font-weight: 600;
+      color: #121210;
+      margin: 0 0 14px 0;
+      text-transform: uppercase;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .legal-block p,
+    .legal-block li {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 15px;
+      color: #555552;
+      line-height: 1.7;
+    }
+
+    .legal-block p {
+      margin: 0 0 12px 0;
+    }
+
+    .legal-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    .legal-block ul {
+      margin: 0 0 12px 0;
+      padding-left: 20px;
+    }
+
+    .legal-block a {
+      color: #121210;
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .legal-updated {
+      margin: 64px 0 0 0;
+      padding-top: 24px;
+      border-top: 1px solid #ECECEA;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      color: #8A8A86;
+    }
+
+    /* FOOTER IDENTICO ALL'HOMEPAGE */
+    .site-footer {
+      background-color: #0c0c0a;
+      padding: 80px 0 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 10;
+      color: #FFFFFF;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+
+    .footer-logo-icon {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-logo-text .srl {
+      font-size: 10px;
+      margin-left: 2px;
+      opacity: 0.5;
+    }
+
+    .footer-brand-desc {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 320px;
+    }
+
+    .footer-title {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      margin: 0 0 20px 0;
+    }
+
+    .footer-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links-list a {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-list a:hover {
+      color: #FFFFFF;
+    }
+
+    .footer-info-details {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.5;
+    }
+
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px 24px;
+    }
+
+    .footer-copyright {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+    }
+
+    /* Link Privacy e Termini nel fondo del footer */
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-legal a:hover {
+      color: #FFFFFF;
+    }
+
+
+/* RESPONSIVE MEDIA QUERIES */
+    @media (max-width: 992px) {
+      .nav-right-group {
+        display: none;
+      }
+      .hamburger-menu-btn {
+        display: flex;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 18px 24px;
+      }
+      .logo-icon {
+        height: 24px;
+      }
+      .logo-text {
+        font-size: 20px;
+        transform: translateY(1.5px);
+      }
+      .logo-text .srl {
+        font-size: 9px;
+        margin-left: 2px;
+      }
+      .legal-section {
+        padding: 70px 0 90px 0;
+      }
+      .legal-content {
+        gap: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Sticky Identico all'Homepage -->
+  <header>
+    <div class="nav-container">
+      <a href="spidi-costruzioni.html" class="logo-container">
+        <img src="LOGO.png" alt="Icona Spidi Costruzioni" class="logo-icon">
+        <h1 class="logo-text">
+          SPIDI COSTRUZIONI<span class="srl">SRL</span>
+        </h1>
+      </a>
+
+      <!-- Gruppo di destra: Menu + Bottone CTA -->
+      <div class="nav-right-group">
+        <ul class="nav-menu">
+          <li class="has-dropdown">
+            <a href="servizi.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Servizi">Servizi</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="residenziale.html">Edilizia Residenziale</a></li>
+              <li><a href="commerciale.html">Spazi Commerciali</a></li>
+              <li><a href="gdo.html">Grande Distribuzione</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="galleria.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Galleria">Galleria</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="galleria.html">Galleria</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="chi-siamo.html">
+              <span class="roll-text"><span class="roll-text-inner" data-text="Chi siamo">Chi siamo</span></span>
+              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="chi-siamo.html">Chi siamo</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="nav-cta">
+          <a href="contatti.html" class="cta-button">
+            <span class="roll-text"><span class="roll-text-inner" data-text="Contatti">Contatti</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hamburger per Mobile -->
+      <button class="hamburger-menu-btn" id="hamburgerBtn" aria-label="Menu">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay Identico all'Homepage -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <nav class="mobile-menu-nav">
+      <a href="spidi-costruzioni.html" class="mobile-nav-link">Home</a>
+      <a href="servizi.html" class="mobile-nav-link">Servizi</a>
+      <a href="galleria.html" class="mobile-nav-link">Galleria</a>
+      <a href="contatti.html" class="mobile-nav-link">Contatti</a>
+      <a href="chi-siamo.html" class="mobile-nav-link">Chi siamo</a>
+    </nav>
+  </div>
+
+  <!-- Hero Section con stile premium scuro -->
+  <section class="legal-hero">
+    <div class="legal-hero-content">
+      <!-- Breadcrumb Capsule Navigation -->
+      <nav class="breadcrumb-nav">
+        <a href="spidi-costruzioni.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Privacy</span>
+      </nav>
+
+      <h2 class="legal-hero-title">Privacy</h2>
+      <p class="legal-hero-subtitle">In breve: questo sito non usa cookie, non ha moduli e non raccoglie dati personali.</p>
+    </div>
+  </section>
+
+  <!-- Testo legale: un blocco breve per argomento -->
+  <section class="legal-section">
+    <div class="section-container">
+      <div class="legal-content">
+        <div class="legal-block">
+          <h3 class="legal-block-title">Chi è il titolare</h3>
+          <p>Spidi Costruzioni S.r.l., Viale Aldo Moro, 32 – 24054 Calcio (BG). Per qualsiasi domanda sulla privacy puoi chiamarci al <a href="tel:+393804345469">380 434 5469</a>.</p>
+        </div>
+
+        <div class="legal-block">
+          <h3 class="legal-block-title">Cosa raccoglie il sito</h3>
+          <p>Niente. Il sito non ha moduli da compilare, non usa cookie, non ha statistiche, pubblicità o strumenti di tracciamento e non carica contenuti da altri siti: anche i caratteri e le immagini sono salvati sul sito stesso.</p>
+          <p>Per questo non trovi nessun avviso sui cookie: non ce n'è bisogno.</p>
+        </div>
+
+        <div class="legal-block">
+          <h3 class="legal-block-title">Dati tecnici del server</h3>
+          <p>Come per ogni sito, il servizio che lo ospita registra in automatico alcuni dati tecnici delle visite (ad esempio indirizzo IP, data e ora, pagina richiesta). Servono solo a far funzionare il sito e a proteggerlo e non vengono usati per riconoscerti o per altri scopi.</p>
+        </div>
+
+        <div class="legal-block">
+          <h3 class="legal-block-title">Se ci chiami</h3>
+          <p>Il numero di telefono del sito apre il telefono del tuo dispositivo: il sito non vede né salva nulla. Il tuo numero e quello che ci racconti li usiamo solo per risponderti e per preparare un eventuale preventivo, e li conserviamo per il tempo necessario a gestire la richiesta.</p>
+        </div>
+
+
+        <div class="legal-block">
+          <h3 class="legal-block-title">I tuoi diritti</h3>
+          <p>Puoi chiederci in qualsiasi momento di vedere, correggere o cancellare i tuoi dati chiamandoci al <a href="tel:+393804345469">380 434 5469</a>. Se pensi che i tuoi dati non siano trattati correttamente puoi rivolgerti al Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer">garanteprivacy.it</a>).</p>
+        </div>
+      </div>
+
+      <p class="legal-updated">Ultimo aggiornamento: ottobre 2026</p>
+    </div>
+  </section>
+
+  <!-- Footer Identico all'Homepage -->
+  <footer class="site-footer">
+    <div class="section-container">
+      <div class="footer-grid">
+        <!-- Colonna Logo -->
+        <div class="footer-col-brand">
+          <a href="spidi-costruzioni.html" class="footer-logo">
+            <img src="LOGO.png" alt="Icona Spidi Costruzioni" class="footer-logo-icon">
+            <span class="footer-logo-text">SPIDI COSTRUZIONI<span class="srl">SRL</span></span>
+          </a>
+          <p class="footer-brand-desc">Edilizia residenziale, spazi commerciali e ristrutturazioni di pregio, con la massima cura del dettaglio e della qualità costruttiva.</p>
+        </div>
+
+        <!-- Colonna Link Navigazione -->
+        <div class="footer-col-links">
+          <h4 class="footer-title">Navigazione</h4>
+          <ul class="footer-links-list">
+            <li><a href="spidi-costruzioni.html">Home</a></li>
+            <li><a href="servizi.html">Servizi</a></li>
+            <li><a href="galleria.html">Galleria</a></li>
+            <li><a href="chi-siamo.html">Chi siamo</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+          </ul>
+        </div>
+
+        <!-- Colonna Dati Societari / Informazioni -->
+        <div class="footer-col-info">
+          <h4 class="footer-title">Spidi Costruzioni S.r.l.</h4>
+          <ul class="footer-info-details">
+            <li>Sede Legale: Viale Aldo Moro, 32 - 24054 Calcio (BG)</li>
+            <li>Partita IVA: 04352010161</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Spidi Costruzioni S.r.l. Tutti i diritti riservati.</p>
+        <nav class="footer-legal" aria-label="Note legali">
+          <a href="privacy.html">Privacy</a>
+          <a href="termini.html">Termini</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lenis Smooth Scroll per scorrimento premium coordinato -->
+  <script src="js/lenis.min.js"></script>
+
+  <script>
+    // Inizializzazione Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Gestione dello scroll per l'header scrolled
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) header.classList.add('scrolled');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Gestione Hamburger Menu Mobile
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (hamburgerBtn && mobileMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+        header.classList.toggle('menu-open');
+      });
+
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburgerBtn.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          header.classList.remove('menu-open');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

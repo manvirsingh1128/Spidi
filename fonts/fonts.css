@@ -1,0 +1,16 @@
+/* Caratteri salvati sul sito: nessuna richiesta a Google Fonts o ad altri server */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('BebasNeue-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('GoogleSansFlex-latin.woff2') format('woff2');
+}
