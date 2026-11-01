@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Spidi Costruzioni - Brochure</title>
+<style>
+  /* Brochure A4 da stampare: stessi caratteri e colori del sito (nero ink, bianco, grigi) */
+  @font-face { font-family: 'Bebas Neue'; src: url('../fonts/BebasNeue-latin.woff2') format('woff2'); font-weight: 400; }
+  @font-face { font-family: 'Google Sans Flex'; src: url('../fonts/GoogleSansFlex-latin.woff2') format('woff2'); font-weight: 300 800; }
+
+  :root {
+    --ink: #121210;      /* colore del logo e del sito */
+    --testo: #2a2a27;    /* testo normale, quasi nero */
+    --secondario: #55554f;
+    --linea: #d9d9d4;
+    --riquadro: #f4f4f1;
+  }
+
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Google Sans Flex', 'Inter', Arial, sans-serif;
+    color: var(--testo);
+    font-size: 12.5pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .pagina {
+    width: 210mm;
+    height: 297mm;
+    padding: 18mm 18mm 0 18mm;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+  .pagina:last-child { page-break-after: auto; }
+
+  .contenuto { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: 8mm; }
+
+  /* Piè di pagina uguale su tutte le pagine */
+  .piede {
+    height: 16mm;
+    border-top: 0.3mm solid var(--linea);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10.5pt;
+    color: var(--secondario);
+  }
+  .piede strong { color: var(--ink); font-weight: 600; letter-spacing: 0.04em; }
+
+  .etichetta {
+    font-size: 10.5pt;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 4mm 0;
+  }
+  .etichetta::before {
+    content: "";
+    display: inline-block;
+    width: 2.2mm;
+    height: 2.2mm;
+    background: var(--ink);
+    margin-right: 2.5mm;
+    vertical-align: 0.4mm;
+  }
+
+  h1, h2 {
+    font-family: 'Bebas Neue', 'Google Sans Flex', sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    margin: 0;
+  }
+  h1 { font-size: 44pt; }
+  h2 { font-size: 38pt; margin-bottom: 9mm; }
+  h3 {
+    font-size: 16pt;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 2mm 0;
+    line-height: 1.25;
+  }
+  p { margin: 0 0 4mm 0; }
+
+  .foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3mm;
+    display: block;
+  }
+
+  /* 1. Copertina */
+  .logo { height: 16mm; width: auto; align-self: flex-start; }
+  .logo-blocco { display: flex; align-items: flex-end; gap: 4mm; }
+  .logo-scritta { font-family: 'Bebas Neue', sans-serif; font-size: 22pt; color: var(--ink); line-height: 0.8; letter-spacing: 0.02em; }
+  .logo-scritta small { font-size: 10pt; margin-left: 1mm; }
+  .copertina-titolo { margin-top: 30mm; }
+  .copertina-sotto { font-size: 15pt; color: var(--testo); margin-top: 7mm; max-width: 150mm; line-height: 1.45; }
+  .copertina-foto { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; height: 62mm; margin-top: auto; }
+  .copertina-fondo { margin-top: 10mm; display: flex; justify-content: space-between; align-items: flex-end; }
+  .copertina-fondo .nome { font-family: 'Bebas Neue', sans-serif; font-size: 22pt; color: var(--ink); }
+  .copertina-fondo .tel { font-size: 18pt; font-weight: 600; color: var(--ink); }
+
+  /* 2. Chi siamo */
+  .riquadro { background: var(--riquadro); border-radius: 3mm; padding: 7mm 8mm; }
+  .squadra { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-top: 4mm; }
+  .persona { border-top: 0.3mm solid var(--linea); padding-top: 4mm; }
+  .persona .nome { font-size: 15pt; font-weight: 600; color: var(--ink); }
+  .persona .ruolo { color: var(--secondario); }
+  .metodo-elenco { list-style: none; padding: 0; margin: 0; }
+  .metodo-elenco li { padding: 3.2mm 0; border-bottom: 0.3mm solid var(--linea); }
+  .metodo-elenco li:last-child { border-bottom: none; }
+
+  /* 3. Servizi: righe uguali */
+  .servizio {
+    display: grid;
+    grid-template-columns: 14mm 1fr;
+    gap: 4mm;
+    padding: 9mm 0;
+    border-top: 0.3mm solid var(--linea);
+  }
+  .servizio:last-child { border-bottom: 0.3mm solid var(--linea); }
+  .numero { font-family: 'Bebas Neue', sans-serif; font-size: 26pt; color: var(--ink); line-height: 1; }
+  .per-chi { color: var(--secondario); font-size: 12pt; margin-bottom: 3mm; }
+
+  /* 4. Lavorazioni: blocchi uguali */
+  .blocchi { display: grid; gap: 6mm; }
+  .blocco { background: var(--riquadro); border-radius: 3mm; padding: 7mm 8mm; }
+  .blocco ul { list-style: none; padding: 0; margin: 4mm 0 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 8mm; font-size: 13.5pt; }
+  .blocco li::before { content: ""; display: inline-block; width: 2mm; height: 2mm; background: var(--ink); margin-right: 3mm; vertical-align: 0.6mm; }
+
+  /* 5. Come lavoriamo */
+  .fase { display: grid; grid-template-columns: 38mm 1fr; gap: 8mm; align-items: center; padding: 7mm 0; border-top: 0.3mm solid var(--linea); }
+  .fase:last-child { border-bottom: 0.3mm solid var(--linea); }
+  .fase-img { width: 38mm; height: 38mm; object-fit: contain; }
+  .fase-num { display: block; font-size: 10.5pt; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--secondario); margin-bottom: 1mm; }
+
+  /* 6. Galleria 3x3 */
+  .griglia { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 4mm; flex: 1; min-height: 0; }
+  .griglia .foto { min-height: 0; }
+
+  /* 7. Contatti */
+  .tel-grande { font-size: 40pt; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; line-height: 1.1; margin: 2mm 0 2mm 0; }
+  .righe-contatto { margin-top: 6mm; }
+  .riga { display: grid; grid-template-columns: 34mm 1fr; padding: 3.2mm 0; border-top: 0.3mm solid var(--linea); }
+  .riga span:first-child { color: var(--secondario); }
+  .riga span:last-child { color: var(--ink); font-weight: 500; }
+  .qr { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 10mm; }
+  .qr div { background: var(--riquadro); border-radius: 3mm; padding: 6mm; display: flex; align-items: center; gap: 6mm; }
+  .qr img { width: 32mm; height: 32mm; }
+  .qr strong { font-size: 14pt; color: var(--ink); display: block; line-height: 1.3; }
+  .legali { margin-top: auto; font-size: 9.5pt; color: var(--secondario); line-height: 1.55; border-top: 0.3mm solid var(--linea); padding-top: 4mm; }
+</style>
+</head>
+<body>
+
+<!-- 1. COPERTINA -->
+<section class="pagina">
+  <div class="contenuto">
+    <div class="logo-blocco">
+      <img src="logo-nero.png" alt="Logo Spidi Costruzioni" class="logo">
+      <div class="logo-scritta">SPIDI COSTRUZIONI<small>SRL</small></div>
+    </div>
+    <h1 class="copertina-titolo">Ristrutturazione e<br>riqualificazione di immobili</h1>
+    <p class="copertina-sotto">Edilizia residenziale e spazi commerciali, inclusa la Grande Distribuzione Organizzata (GDO).</p>
+    <div class="copertina-foto">
+      <img class="foto" src="foto/copertina-1.jpg" alt="">
+      <img class="foto" src="foto/copertina-2.jpg" alt="">
+      <img class="foto" src="foto/copertina-3.jpg" alt="">
+      <img class="foto" src="foto/copertina-4.jpg" alt="">
+    </div>
+    <div class="copertina-fondo">
+      <span class="nome">Spidi Costruzioni S.r.l.</span>
+      <span class="tel">Telefono 380 434 5469</span>
+    </div>
+  </div>
+  <div class="piede"><strong>SPIDI COSTRUZIONI S.R.L.</strong><span>Telefono +39 380 434 5469</span></div>
+</section>
+
+<!-- 3. I SERVIZI -->
+<section class="pagina">
+  <div class="contenuto">
+    <p class="etichetta">I servizi</p>
+    <h2>Cosa facciamo</h2>
+    <div class="servizio">
+      <span class="numero">01</span>
+      <div>
+        <h3>Edilizia residenziale</h3>
+        <div class="per-chi">Per chi ha una casa, un appartamento o un condominio</div>
+        <p>Ristrutturazione, restauro e riqualificazione energetica di appartamenti, ville e complessi abitativi.</p>
+      </div>
+    </div>
+    <div class="servizio">
+      <span class="numero">02</span>
+      <div>
+        <h3>Spazi commerciali</h3>
+        <div class="per-chi">Per chi ha un negozio, un ufficio o uno showroom</div>
+        <p>Realizzazione e allestimento su misura di uffici, showroom e negozi, curando estetica e funzionalità.</p>
+      </div>
+    </div>
+    <div class="servizio">
+      <span class="numero">03</span>
+      <div>
+        <h3>Grande Distribuzione</h3>
+        <div class="per-chi">Per supermercati e centri commerciali</div>
+        <p>Costruzione, ristrutturazione e manutenzione di supermercati e centri commerciali, con velocità e continuità.</p>
+      </div>
+    </div>
+  </div>
+  <div class="piede"><strong>SPIDI COSTRUZIONI S.R.L.</strong><span>Telefono +39 380 434 5469</span></div>
+</section>
+
+<!-- 4. LE LAVORAZIONI -->
+<section class="pagina">
+  <div class="contenuto">
+    <p class="etichetta">Le lavorazioni</p>
+    <h2>Cosa possiamo fare per te</h2>
+    <div class="blocchi">
+      <div class="blocco">
+        <h3>Edilizia residenziale</h3>
+        <ul>
+          <li>Ristrutturazioni chiavi in mano</li>
+          <li>Nuove costruzioni</li>
+          <li>Riqualificazione energetica</li>
+          <li>Consolidamento dei solai</li>
+        </ul>
+      </div>
+      <div class="blocco">
+        <h3>Spazi commerciali</h3>
+        <ul>
+          <li>Open space e uffici</li>
+          <li>Showroom e negozi</li>
+          <li>Pareti divisorie mobili</li>
+          <li>Impianti a norma</li>
+        </ul>
+      </div>
+      <div class="blocco">
+        <h3>Grande Distribuzione</h3>
+        <ul>
+          <li>Supermercati chiavi in mano</li>
+          <li>Manutenzione edile</li>
+          <li>Pavimenti industriali</li>
+          <li>Pareti e chiusure antincendio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="piede"><strong>SPIDI COSTRUZIONI S.R.L.</strong><span>Telefono +39 380 434 5469</span></div>
+</section>
+
+<!-- 5. COME LAVORIAMO -->
+<section class="pagina">
+  <div class="contenuto">
+    <p class="etichetta">Come lavoriamo</p>
+    <h2>Dal primo contatto alla consegna</h2>
+    <div class="fase">
+      <img src="../illustrazioni/sopralluogo.png" alt="" class="fase-img">
+      <div><span class="fase-num">Fase 1</span><h3>Sopralluogo e preventivo</h3><p>Veniamo a vedere gli spazi, ascoltiamo cosa vuoi fare e ti prepariamo un preventivo chiaro.</p></div>
+    </div>
+    <div class="fase">
+      <img src="../illustrazioni/progetto.png" alt="" class="fase-img">
+      <div><span class="fase-num">Fase 2</span><h3>Progetto e tempi</h3><p>Definiamo insieme il progetto e i tempi dei lavori, prima di aprire il cantiere.</p></div>
+    </div>
+    <div class="fase">
+      <img src="../illustrazioni/cantiere.png" alt="" class="fase-img">
+      <div><span class="fase-num">Fase 3</span><h3>Lavori in cantiere</h3><p>Seguiamo il cantiere dall'inizio alla fine, curando la qualità dei lavori e il rispetto dei tempi.</p></div>
+    </div>
+    <div class="fase">
+      <img src="../illustrazioni/consegna.png" alt="" class="fase-img">
+      <div><span class="fase-num">Fase 4</span><h3>Consegna</h3><p>A lavori finiti ti consegniamo gli spazi pronti da vivere, con tutta la documentazione prevista.</p></div>
+    </div>
+  </div>
+  <div class="piede"><strong>SPIDI COSTRUZIONI S.R.L.</strong><span>Telefono +39 380 434 5469</span></div>
+</section>
+
+<!-- 6. ALCUNI LAVORI REALIZZATI -->
+<section class="pagina">
+  <div class="contenuto">
+    <p class="etichetta">I nostri cantieri</p>
+    <h2>Alcuni lavori realizzati</h2>
+    <div class="griglia">
+      <img class="foto" src="foto/galleria-1.jpg" alt="">
+      <img class="foto" src="foto/galleria-2.jpg" alt="">
+      <img class="foto" src="foto/galleria-3.jpg" alt="">
+      <img class="foto" src="foto/galleria-4.jpg" alt="">
+      <img class="foto" src="foto/galleria-5.jpg" alt="">
+      <img class="foto" src="foto/galleria-6.jpg" alt="">
+      <img class="foto" src="foto/galleria-7.jpg" alt="">
+      <img class="foto" src="foto/galleria-8.jpg" alt="">
+      <img class="foto" src="foto/galleria-9.jpg" alt="">
+    </div>
+  </div>
+  <div class="piede"><strong>SPIDI COSTRUZIONI S.R.L.</strong><span>Telefono +39 380 434 5469</span></div>
+</section>
+
+<!-- 7. CONTATTI -->
+<section class="pagina">
+  <div class="contenuto">
+    <p class="etichetta">Contatti</p>
+    <h2>Parliamo del tuo lavoro</h2>
+    <div style="color: var(--secondario);">Chiamaci</div>
+    <div class="tel-grande">380 434 5469</div>
+    <div class="righe-contatto">
+      <div class="riga"><span>Email</span><span>spidicostruzionisrl@gmail.com</span></div>
+      <div class="riga"><span>Indirizzo</span><span>Viale Aldo Moro, 32 - 24054 Calcio (BG)</span></div>
+    </div>
+    <div class="qr">
+      <div><img src="qr-telefono.png" alt="QR per chiamare"><strong>Inquadra<br>per chiamare</strong></div>
+      <div><img src="qr-email.png" alt="QR per scrivere"><strong>Inquadra<br>per scriverci</strong></div>
+    </div>
+    <div class="legali">
+      SPIDI COSTRUZIONI S.R.L. - Sede legale: Viale Aldo Moro 32, 24054 Calcio (BG)<br>
+      C.F. e P.IVA 04352010161 - CCIAA e numero REA: BG 0456282<br>
+      Capitale sociale € 20.000,00 i.v. - PEC: SPIDICOSTRUZIONISRL@PEC.IT
+    </div>
+  </div>
+  <div class="piede"><strong>SPIDI COSTRUZIONI S.R.L.</strong><span>Telefono +39 380 434 5469</span></div>
+</section>
+
+</body>
+</html>

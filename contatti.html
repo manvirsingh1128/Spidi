@@ -595,6 +595,59 @@
       margin-top: 2px;
     }
 
+    /* Riquadro brochure sotto i recapiti */
+    .brochure-box {
+      margin-top: 40px;
+      padding: 28px;
+      background-color: #F6F6F4;
+      max-width: 560px;
+    }
+
+    .brochure-text {
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555552;
+      margin: 6px 0 20px 0;
+    }
+
+    .brochure-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brochure-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      background-color: #121210;
+      color: #FFFFFF;
+      border: 1.5px solid #121210;
+      font-family: 'Google Sans Flex', 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .brochure-btn:hover {
+      background-color: #2b2b25;
+    }
+
+    .brochure-btn-outline {
+      background-color: transparent;
+      color: #121210;
+    }
+
+    .brochure-btn-outline:hover {
+      background-color: #121210;
+      color: #FFFFFF;
+    }
+
     /* FOOTER UNIFICATO ED ELEGANTE */
     .site-footer {
       background-color: #0c0c0a;
@@ -816,17 +869,6 @@
               <li><a href="galleria.html">Galleria</a></li>
             </ul>
           </li>
-          <li class="has-dropdown">
-            <a href="chi-siamo.html">
-              <span class="roll-text"><span class="roll-text-inner" data-text="Chi siamo">Chi siamo</span></span>
-              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
-                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="chi-siamo.html">Chi siamo</a></li>
-            </ul>
-          </li>
         </ul>
 
         <div class="nav-cta">
@@ -852,7 +894,6 @@
       <a href="servizi.html" class="mobile-nav-link">Servizi</a>
       <a href="galleria.html" class="mobile-nav-link">Galleria</a>
       <a href="contatti.html" class="mobile-nav-link active">Contatti</a>
-      <a href="chi-siamo.html" class="mobile-nav-link">Chi siamo</a>
     </nav>
   </div>
 
@@ -895,16 +936,25 @@
             <div class="info-box">
               <img src="illustrazioni/telefono.png" alt="" class="info-illustration">
               <div class="info-text-wrapper">
-                <span class="info-label">Contatto Telefonico</span>
+                <span class="info-label">Telefono ed email</span>
                 <a href="tel:+393804345469" class="info-value">+39 380 434 5469</a>
-                <span class="info-subvalue">Attivo Lun - Ven, 8:00 - 18:00</span>
+                <a href="mailto:spidicostruzionisrl@gmail.com" class="info-value" style="margin-top: 6px;">spidicostruzionisrl@gmail.com</a>
               </div>
             </div>
 
 
           </div>
-        </div>
 
+          <!-- Brochure aziendale in PDF: si apre in una nuova scheda o si scarica -->
+          <div class="brochure-box">
+            <span class="info-label">Brochure aziendale</span>
+            <p class="brochure-text">Chi siamo, i servizi, come lavoriamo e alcuni lavori realizzati, in un PDF da sfogliare o stampare.</p>
+            <div class="brochure-actions">
+              <a href="brochure-spidi-costruzioni.pdf" target="_blank" rel="noopener" class="brochure-btn">Apri la brochure</a>
+              <a href="brochure-spidi-costruzioni.pdf" download class="brochure-btn brochure-btn-outline">Scarica PDF</a>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -921,7 +971,8 @@
             <span class="footer-logo-text">SPIDI COSTRUZIONI<span class="srl">SRL</span></span>
           </a>
           <p class="footer-description">Impresa edile specializzata in costruzioni residenziali, ristrutturazioni di pregio, spazi commerciali e logistica GDO in tutta la Lombardia.</p>
-          <div class="footer-info-item">P.IVA: 04352010161</div>
+          <div class="footer-info-item">C.F. e P.IVA: 04352010161</div>
+          <div class="footer-info-item">REA: BG 0456282 - Capitale sociale € 20.000,00 i.v.</div>
           <div class="footer-info-item">Sede Legale: Viale Aldo Moro, 32 - 24054 Calcio (BG)</div>
         </div>
 
@@ -932,7 +983,6 @@
             <li><a href="spidi-costruzioni.html">Homepage</a></li>
             <li><a href="servizi.html">Servizi</a></li>
             <li><a href="galleria.html">Galleria Cantieri</a></li>
-            <li><a href="chi-siamo.html">Chi Siamo</a></li>
             <li><a href="contatti.html">Contatti</a></li>
           </ul>
         </div>
@@ -941,8 +991,9 @@
         <div>
           <h4 class="footer-title">Contattaci</h4>
           <ul class="footer-links-list">
-            <li><a href="tel:+393804345469">Tel: +39 380 434 5469</a></li>
-            <li><a href="mailto:spidicostruzioni@pec.it">PEC: spidicostruzioni@pec.it</a></li>
+            <li><a href="tel:+393804345469">Telefono: 380 434 5469</a></li>
+            <li><a href="mailto:spidicostruzionisrl@gmail.com">spidicostruzionisrl@gmail.com</a></li>
+            <li><a href="mailto:spidicostruzionisrl@pec.it">PEC: spidicostruzionisrl@pec.it</a></li>
           </ul>
         </div>
       </div>

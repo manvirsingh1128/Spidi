@@ -988,13 +988,12 @@
       position: absolute;
       top: 0;
       left: 50%;
-      width: 4px;
+      width: 2px; /* Linea sottile come il resto del sito */
       height: 100%;
       background-color: #FFFFFF;
       z-index: 3;
       transform: translateX(-50%);
       pointer-events: none;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
     .auto-animating .before-wrapper {
@@ -1008,22 +1007,22 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 44px;
-      height: 44px;
-      background-color: #FFFFFF;
+      width: 38px;
+      height: 38px;
+      background-color: #FFFFFF; /* Quadrato bianco con angoli netti come i bottoni del sito */
       color: #121210;
-      border-radius: 50%;
+      box-sizing: border-box;
       transform: translate(-50%, -50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       pointer-events: none;
     }
 
     .slider-handle-button svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.6;
     }
 
     .project-info {
@@ -1594,6 +1593,15 @@
       color: #FFFFFF;
     }
 
+    .footer-info-details a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .footer-info-details a:hover {
+      color: #FFFFFF;
+    }
+
     .footer-info-details {
       list-style: none;
       padding: 0;
@@ -1821,17 +1829,6 @@
               <li><a href="galleria.html">Galleria</a></li>
             </ul>
           </li>
-          <li class="has-dropdown">
-            <a href="chi-siamo.html">
-              <span class="roll-text"><span class="roll-text-inner" data-text="Chi siamo">Chi siamo</span></span>
-              <svg class="chevron-icon" width="8" height="5" viewBox="0 0 10 6" fill="none" style="margin-left: 6px; flex-shrink: 0;">
-                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="chi-siamo.html">Chi siamo</a></li>
-            </ul>
-          </li>
         </ul>
 
         <div class="nav-cta">
@@ -1857,7 +1854,6 @@
       <a href="servizi.html" class="mobile-nav-link">Servizi</a>
       <a href="galleria.html" class="mobile-nav-link">Galleria</a>
       <a href="contatti.html" class="mobile-nav-link">Contatti</a>
-      <a href="chi-siamo.html" class="mobile-nav-link">Chi siamo</a>
     </nav>
   </div>
 
@@ -1890,7 +1886,7 @@
           <h2 class="hero-title">Ristrutturazione e<br class="desktop-only-br">riqualificazione di immobili</h2>
           <p class="hero-subtitle">Edilizia residenziale e spazi commerciali, inclusa la Grande Distribuzione Organizzata (GDO)</p>
           <a href="#contatti" class="hero-btn">
-            <span class="roll-text"><span class="roll-text-inner" data-text="Richiedi preventivo">Richiedi preventivo</span></span>
+            <span class="roll-text"><span class="roll-text-inner" data-text="Contattaci">Contattaci</span></span>
             <span class="btn-arrow-wrapper">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
                 <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2441,7 +2437,11 @@
           <h4 class="footer-title">Spidi Costruzioni S.r.l.</h4>
           <ul class="footer-info-details">
             <li>Sede Legale: Viale Aldo Moro, 32 - 24054 Calcio (BG)</li>
-            <li>Partita IVA: 04352010161</li>
+            <li>C.F. e Partita IVA: 04352010161</li>
+            <li>REA: BG 0456282 - Capitale sociale € 20.000,00 i.v.</li>
+            <li>Telefono: <a href="tel:+393804345469">380 434 5469</a></li>
+            <li>Email: <a href="mailto:spidicostruzionisrl@gmail.com">spidicostruzionisrl@gmail.com</a></li>
+            <li>PEC: <a href="mailto:spidicostruzionisrl@pec.it">spidicostruzionisrl@pec.it</a></li>
           </ul>
         </div>
       </div>
